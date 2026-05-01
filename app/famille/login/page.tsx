@@ -6,7 +6,7 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ error?: string; next?: string }>;
 }) {
-  if (await isAuthed()) redirect('/');
+  if (await isAuthed()) redirect('/famille');
   const sp = await searchParams;
   const previousName = await getName();
 
@@ -19,7 +19,7 @@ export default async function LoginPage({
       {sp.error === 'bad' && <div className="error">Mot de passe incorrect.</div>}
       {sp.error === 'missing' && <div className="error">Prénom et mot de passe requis.</div>}
       <form action="/api/login" method="post">
-        <input type="hidden" name="next" value={sp.next || '/'} />
+        <input type="hidden" name="next" value={sp.next || '/famille'} />
         <div className="row">
           <label htmlFor="name">Ton prénom</label>
           <input

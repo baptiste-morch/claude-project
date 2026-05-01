@@ -7,7 +7,7 @@ export default async function NewPostPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  if (!(await isAuthed())) redirect('/login?next=/new');
+  if (!(await isAuthed())) redirect('/famille/login?next=/famille/new');
   const sp = await searchParams;
 
   return (

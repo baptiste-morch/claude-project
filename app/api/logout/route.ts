@@ -3,5 +3,5 @@ import { clearSession } from '@/lib/session';
 
 export async function POST(req: NextRequest) {
   await clearSession();
-  return NextResponse.redirect(new URL('/login', req.nextUrl.origin), 303);
+  return NextResponse.redirect(new URL('/famille/login', req.nextUrl.origin), 303);
 }

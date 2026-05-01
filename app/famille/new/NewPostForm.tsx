@@ -94,8 +94,7 @@ export default function NewPostForm({ initialError }: { initialError?: string })
       const res = await fetch('/api/posts', { method: 'POST', body: fd, redirect: 'manual' });
       // With redirect: 'manual' the response is opaqueredirect, so check Location indirectly.
       if (res.type === 'opaqueredirect') {
-        // We can't read it; fall back to following manually with another request to find post.
-        window.location.href = '/';
+        window.location.href = '/famille';
         return;
       }
       if (res.redirected) {
@@ -105,7 +104,7 @@ export default function NewPostForm({ initialError }: { initialError?: string })
       if (res.ok) {
         const data = await res.json().catch(() => null);
         if (data?.id) {
-          window.location.href = `/p/${data.id}`;
+          window.location.href = `/famille/p/${data.id}`;
           return;
         }
       }

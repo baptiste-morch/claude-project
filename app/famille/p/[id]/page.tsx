@@ -14,7 +14,7 @@ export default async function PostPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ error?: string }>;
 }) {
-  if (!(await isAuthed())) redirect('/login');
+  if (!(await isAuthed())) redirect('/famille/login');
   const { id } = await params;
   const sp = await searchParams;
   const supabase = getSupabase();
@@ -37,7 +37,7 @@ export default async function PostPage({
   return (
     <>
       <div style={{ marginBottom: 12 }}>
-        <Link href="/" className="muted">← Retour au flux</Link>
+        <Link href="/famille" className="muted">← Retour au flux</Link>
       </div>
       <article className="card">
         <div className="post-row">

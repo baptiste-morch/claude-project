@@ -2,10 +2,12 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="empty">
-      <h2>Introuvable</h2>
-      <p>Cette publication n'existe pas (ou plus).</p>
-      <Link href="/" className="btn">Retour au flux</Link>
-    </div>
+    <main className="landing">
+      <section className="hero">
+        <h1>404</h1>
+        <p className="tagline">Cette page n'existe pas.</p>
+        <Link href="/" className="btn">Retour à l'accueil</Link>
+      </section>
+    </main>
   );
 }
