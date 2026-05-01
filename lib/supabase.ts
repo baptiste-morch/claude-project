@@ -8,10 +8,11 @@ declare global {
 export function getSupabase(): SupabaseClient {
   if (global.__supabase) return global.__supabase;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Accepts the new "secret key" (sb_secret_...) or the legacy service_role JWT.
+  const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
     throw new Error(
-      'Configuration Supabase manquante : définis NEXT_PUBLIC_SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.'
+      'Configuration Supabase manquante : définis NEXT_PUBLIC_SUPABASE_URL et SUPABASE_SECRET_KEY.'
     );
   }
   const client = createClient(url, key, {

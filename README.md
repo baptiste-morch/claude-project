@@ -29,16 +29,22 @@ Le projet `supabase-purple-zebra` est déjà créé avec le schéma et le bucket
 - Tables `posts`, `comments` créées (RLS activé)
 - Bucket Storage `photos` (public) créé
 
-### Récupérer la clé service_role (manuel, une seule fois)
+### Récupérer la Secret Key (manuel, une seule fois)
 
-L'app utilise la clé `service_role` côté serveur uniquement (jamais exposée au
-navigateur). Elle n'est pas accessible via API automatique pour des raisons de
-sécurité — il faut la copier depuis le dashboard :
+L'app utilise une clé secrète Supabase côté serveur uniquement (jamais exposée
+au navigateur). Elle n'est pas accessible via API automatique pour des raisons
+de sécurité — il faut la copier depuis le dashboard :
 
-1. Ouvre https://supabase.com/dashboard/project/ouedelavypygwvxxuudv/settings/api
-2. Section **Project API keys** → copie la valeur de `service_role` (secret)
-3. Mets-la dans `.env.local` (en dev) ou Vercel (en prod) sous
-   `SUPABASE_SERVICE_ROLE_KEY`
+1. Ouvre https://supabase.com/dashboard/project/ouedelavypygwvxxuudv/settings/api-keys
+2. Onglet **Secret keys** :
+   - Si une clé `sb_secret_...` existe déjà → clique **Reveal** et copie-la.
+   - Sinon → **Create new API key** (nom au choix, ex. `famille-app`) → Reveal → copie.
+3. Mets la valeur dans `.env.local` (dev) ou chez ton hébergeur (prod) sous
+   `SUPABASE_SECRET_KEY`.
+
+> Depuis novembre 2025, Supabase a remplacé la `service_role` JWT historique
+> par les "Secret Keys" (`sb_secret_...`). Le code accepte les deux formats
+> pour rester compatible avec les anciens projets.
 
 ## Préparer TMDB (films/séries)
 
@@ -72,7 +78,7 @@ Site dispo sur http://localhost:3000.
 | ------------------------------ | ----------------------------------------------- |
 | `FAMILY_PASSWORD`              | Mot de passe partagé pour entrer.               |
 | `NEXT_PUBLIC_SUPABASE_URL`     | URL de ton projet Supabase.                     |
-| `SUPABASE_SERVICE_ROLE_KEY`    | Clé service_role Supabase (server-only).        |
+| `SUPABASE_SECRET_KEY`          | Clé secrète Supabase (`sb_secret_...`, server-only). |
 | `TMDB_API_KEY`                 | Clé API TMDB pour film/série.                   |
 | `TWITCH_CLIENT_ID`             | Twitch app ID (pour IGDB).                      |
 | `TWITCH_CLIENT_SECRET`         | Twitch app secret (pour IGDB).                  |
