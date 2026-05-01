@@ -1,4 +1,5 @@
-export function timeAgo(timestamp: number): string {
+export function timeAgo(input: number | string): string {
+  const timestamp = typeof input === 'string' ? Date.parse(input) : input;
   const now = Date.now();
   const diff = Math.max(0, now - timestamp);
   const sec = Math.floor(diff / 1000);

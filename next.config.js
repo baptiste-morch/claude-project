@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ['better-sqlite3'],
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'image.tmdb.org' },
+      { protocol: 'https', hostname: 'books.google.com' },
+      { protocol: 'https', hostname: '*.supabase.co' },
+    ],
+  },
 };
 
 module.exports = nextConfig;

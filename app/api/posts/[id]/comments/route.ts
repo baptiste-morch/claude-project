@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'node:crypto';
-import db, { Post } from '@/lib/db';
+import { getSupabase } from '@/lib/supabase';
 import { isAuthed, getName } from '@/lib/session';
+
+export const runtime = 'nodejs';
 
 export async function POST(
   req: NextRequest,
@@ -11,7 +12,13 @@ export async function POST(
     return NextResponse.redirect(new URL('/login', req.nextUrl.origin), 303);
   }
   const { id } = await params;
-  const post = db.prepare('SELECT id FROM posts WHERE id = ?').get(id) as Pick<Post, 'id'> | undefined;
+  const supabase = getSupabase();
+
+  const { data: post } = await supabase
+    .from('posts')
+    .select('id')
+    .eq('id', id)
+    .maybeSingle();
   if (!post) {
     return NextResponse.redirect(new URL('/', req.nextUrl.origin), 303);
   }
@@ -24,9 +31,13 @@ export async function POST(
     return NextResponse.redirect(new URL(`/p/${id}?error=missing`, req.nextUrl.origin), 303);
   }
 
-  db.prepare(
-    'INSERT INTO comments (id, post_id, author, body, created_at) VALUES (?, ?, ?, ?, ?)'
-  ).run(crypto.randomUUID(), id, author, body, Date.now());
+  const { error } = await supabase
+    .from('comments')
+    .insert({ post_id: id, author, body });
+  if (error) {
+    console.error('insert comment error', error);
+    return NextResponse.redirect(new URL(`/p/${id}?error=missing`, req.nextUrl.origin), 303);
+  }
 
   return NextResponse.redirect(new URL(`/p/${id}`, req.nextUrl.origin), 303);
 }
