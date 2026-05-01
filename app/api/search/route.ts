@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAuthed } from '@/lib/session';
+import { getIgdbToken } from '@/lib/igdb';
 
 export const runtime = 'nodejs';
 
@@ -24,6 +25,8 @@ export async function GET(req: NextRequest) {
     if (type === 'film') return NextResponse.json({ results: await searchTmdb(q, 'movie') });
     if (type === 'serie') return NextResponse.json({ results: await searchTmdb(q, 'tv') });
     if (type === 'livre') return NextResponse.json({ results: await searchBooks(q) });
+    if (type === 'jeu') return NextResponse.json({ results: await searchIgdb(q) });
+    if (type === 'video') return NextResponse.json({ results: await resolveVideoUrl(q) });
     return NextResponse.json({ results: [] });
   } catch (e) {
     console.error('search error', e);
@@ -80,6 +83,63 @@ async function searchBooks(q: string): Promise<SearchResult[]> {
       subtitle: (v.authors || []).join(', ') || null,
     };
   });
+}
+
+async function searchIgdb(q: string): Promise<SearchResult[]> {
+  const id = process.env.TWITCH_CLIENT_ID;
+  const token = await getIgdbToken();
+  if (!id || !token) return [];
+
+  const body = `search "${q.replace(/"/g, '\\"')}";\nfields name, cover.image_id, first_release_date, summary;\nlimit 8;`;
+  const res = await fetch('https://api.igdb.com/v4/games', {
+    method: 'POST',
+    headers: {
+      'Client-ID': id,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'text/plain',
+    },
+    body,
+    cache: 'no-store',
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return (data || []).map((g: any): SearchResult => ({
+    external_id: `igdb:${g.id}`,
+    title: g.name,
+    year: g.first_release_date
+      ? new Date(g.first_release_date * 1000).getUTCFullYear()
+      : null,
+    cover_url: g.cover?.image_id
+      ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${g.cover.image_id}.jpg`
+      : null,
+    subtitle: g.summary ? truncate(g.summary, 140) : null,
+  }));
+}
+
+async function resolveVideoUrl(q: string): Promise<SearchResult[]> {
+  const trimmed = q.trim();
+  if (!/^https?:\/\//i.test(trimmed)) return [];
+
+  let oembedUrl: string | null = null;
+  if (/youtube\.com\/watch|youtu\.be\//i.test(trimmed)) {
+    oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(trimmed)}&format=json`;
+  } else if (/vimeo\.com\//i.test(trimmed)) {
+    oembedUrl = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(trimmed)}`;
+  }
+  if (!oembedUrl) return [];
+
+  const res = await fetch(oembedUrl, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return [
+    {
+      external_id: `oembed:${trimmed}`,
+      title: data.title || trimmed,
+      year: null,
+      cover_url: data.thumbnail_url || null,
+      subtitle: data.author_name ? `par ${data.author_name}` : null,
+    },
+  ];
 }
 
 function truncate(s: string, max: number) {

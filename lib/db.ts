@@ -23,8 +23,8 @@ export const POST_TYPES = [
   { value: 'film', label: 'Film', emoji: '🎬', autocomplete: 'tmdb-movie' },
   { value: 'serie', label: 'Série', emoji: '📺', autocomplete: 'tmdb-tv' },
   { value: 'livre', label: 'Livre', emoji: '📚', autocomplete: 'books' },
-  { value: 'jeu', label: 'Jeu vidéo', emoji: '🎮', autocomplete: null },
-  { value: 'video', label: 'Vidéo', emoji: '📽️', autocomplete: null },
+  { value: 'jeu', label: 'Jeu vidéo', emoji: '🎮', autocomplete: 'igdb' },
+  { value: 'video', label: 'Vidéo', emoji: '📽️', autocomplete: 'oembed' },
 ] as const;
 
 export type PostType = (typeof POST_TYPES)[number]['value'];

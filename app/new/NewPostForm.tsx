@@ -145,7 +145,13 @@ export default function NewPostForm({ initialError }: { initialError?: string })
             if (selected && e.target.value !== selected.title) clearSelected();
           }}
           onFocus={() => results.length > 0 && setOpen(true)}
-          placeholder={supportsAutocomplete ? 'Tape pour chercher…' : 'Ex. Hollow Knight'}
+          placeholder={
+            type === 'video'
+              ? 'Colle une URL YouTube ou Vimeo…'
+              : supportsAutocomplete
+                ? 'Tape pour chercher…'
+                : 'Ex. Hollow Knight'
+          }
         />
         {searching && <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>Recherche…</div>}
         {open && results.length > 0 && (
