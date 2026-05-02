@@ -2,8 +2,11 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { Post, Comment, typeLabel } from '@/lib/db';
 import { getSupabase } from '@/lib/supabase';
-import { isAuthed } from '@/lib/session';
+import { isAuthed, getName } from '@/lib/session';
 import { timeAgo } from '@/lib/format';
+import { loadReactions, makeKey } from '@/lib/reactions';
+import Body from '../../components/Body';
+import Reactions from '../../components/Reactions';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +18,7 @@ export default async function PostPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   if (!(await isAuthed())) redirect('/famille/login');
+  const me = await getName();
   const { id } = await params;
   const sp = await searchParams;
   const supabase = getSupabase();
@@ -32,7 +36,14 @@ export default async function PostPage({
     .eq('post_id', id)
     .order('created_at', { ascending: true });
 
+  const targets: { type: 'post' | 'comment'; id: string }[] = [
+    { type: 'post', id: post.id },
+    ...(comments ?? []).map((c) => ({ type: 'comment' as const, id: c.id })),
+  ];
+  const reactions = await loadReactions(targets, me);
+
   const t = typeLabel(post.type);
+  const postReactions = reactions.get(makeKey('post', post.id)) ?? [];
 
   return (
     <>
@@ -56,7 +67,7 @@ export default async function PostPage({
               </h2>
             </div>
             <div className="muted">par {post.author} · {timeAgo(post.created_at)}</div>
-            <div className="body">{post.body}</div>
+            <div className="body"><Body text={post.body} /></div>
           </div>
         </div>
 
@@ -71,20 +82,30 @@ export default async function PostPage({
           </div>
         )}
 
+        <div style={{ marginTop: 14 }}>
+          <Reactions targetType="post" targetId={post.id} initial={postReactions} />
+        </div>
+
         <h3 style={{ marginTop: 24, marginBottom: 0, fontSize: 16 }}>
           {(comments ?? []).length}{' '}
           {(comments ?? []).length === 1 ? 'commentaire' : 'commentaires'}
         </h3>
 
-        {(comments ?? []).map((c: Comment) => (
-          <div key={c.id} className="comment">
-            <div className="muted">
-              <strong style={{ color: 'var(--ink)' }}>{c.author}</strong> ·{' '}
-              {timeAgo(c.created_at)}
+        {(comments ?? []).map((c: Comment) => {
+          const cr = reactions.get(makeKey('comment', c.id)) ?? [];
+          return (
+            <div key={c.id} className="comment">
+              <div className="muted">
+                <strong style={{ color: 'var(--ink)' }}>{c.author}</strong> ·{' '}
+                {timeAgo(c.created_at)}
+              </div>
+              <div className="body"><Body text={c.body} /></div>
+              <div style={{ marginTop: 6 }}>
+                <Reactions targetType="comment" targetId={c.id} initial={cr} />
+              </div>
             </div>
-            <div className="body">{c.body}</div>
-          </div>
-        ))}
+          );
+        })}
 
         {sp.error === 'missing' && (
           <div className="error" style={{ marginTop: 16 }}>Le commentaire est vide.</div>
@@ -96,7 +117,13 @@ export default async function PostPage({
           style={{ marginTop: 20 }}
         >
           <label htmlFor="body">Ajouter un commentaire</label>
-          <textarea id="body" name="body" required maxLength={3000} placeholder="Écris ce que tu en as pensé…" />
+          <textarea
+            id="body"
+            name="body"
+            required
+            maxLength={3000}
+            placeholder="Écris ce que tu en as pensé… (||texte caché|| pour un spoiler)"
+          />
           <div style={{ marginTop: 12 }}>
             <button className="btn btn-primary" type="submit">Envoyer</button>
           </div>

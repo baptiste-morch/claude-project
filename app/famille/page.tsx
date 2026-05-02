@@ -2,13 +2,17 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Post, typeLabel } from '@/lib/db';
 import { getSupabase } from '@/lib/supabase';
-import { isAuthed } from '@/lib/session';
+import { isAuthed, getName } from '@/lib/session';
 import { timeAgo } from '@/lib/format';
+import { loadReactions, makeKey } from '@/lib/reactions';
+import Body from './components/Body';
+import Reactions from './components/Reactions';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   if (!(await isAuthed())) redirect('/famille/login');
+  const me = await getName();
 
   const supabase = getSupabase();
   const { data: posts, error } = await supabase
@@ -30,6 +34,11 @@ export default async function HomePage() {
     }
   }
 
+  const reactions = await loadReactions(
+    (posts ?? []).map((p) => ({ type: 'post' as const, id: p.id })),
+    me
+  );
+
   return (
     <>
       {(!posts || posts.length === 0) ? (
@@ -41,6 +50,7 @@ export default async function HomePage() {
         posts.map((p: Post) => {
           const t = typeLabel(p.type);
           const n = countMap.get(p.id) ?? 0;
+          const r = reactions.get(makeKey('post', p.id)) ?? [];
           return (
             <article key={p.id} className="card">
               <div className="post-row">
@@ -61,8 +71,9 @@ export default async function HomePage() {
                     </Link>
                   </div>
                   <div className="muted">par {p.author} · {timeAgo(p.created_at)}</div>
-                  <div className="body">{truncate(p.body, 240)}</div>
+                  <div className="body"><Body text={p.body} /></div>
                   <div className="actions">
+                    <Reactions targetType="post" targetId={p.id} initial={r} />
                     <Link href={`/famille/p/${p.id}`} className="muted">
                       💬 {n} {n === 1 ? 'commentaire' : 'commentaires'}
                       {p.photos.length > 0 ? ` · 📷 ${p.photos.length}` : ''}
@@ -79,9 +90,4 @@ export default async function HomePage() {
       </div>
     </>
   );
-}
-
-function truncate(text: string, max: number) {
-  if (text.length <= max) return text;
-  return text.slice(0, max).trimEnd() + '…';
 }

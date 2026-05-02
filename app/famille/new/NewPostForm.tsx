@@ -198,7 +198,13 @@ export default function NewPostForm({ initialError }: { initialError?: string })
 
       <div className="row">
         <label htmlFor="body">Ton avis, ta question, ce que tu en as pensé…</label>
-        <textarea id="body" name="body" required maxLength={5000} />
+        <textarea
+          id="body"
+          name="body"
+          required
+          maxLength={5000}
+          placeholder="Astuce : encadre un spoiler avec ||double pipe|| pour le cacher"
+        />
       </div>
 
       <div className="row">

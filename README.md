@@ -13,7 +13,11 @@ des deux côtés de l'Atlantique.
   - 🎬 Films & 📺 Séries → TMDB (titre fr, année, affiche, synopsis)
   - 📚 Livres → Google Books (titre, auteur, année, couverture)
   - 🎮 Jeux → IGDB via Twitch OAuth (titre, année, jaquette, résumé)
+  - 🎙️ Podcasts → Apple Podcasts (shows + épisodes), avec Spotify en bonus si configuré
   - 📽️ Vidéos → coller une URL YouTube ou Vimeo, oEmbed remplit titre + miniature
+- **Réactions emoji** (👍 ❤️ 😂 🤔) sur les publications et les commentaires
+- **Spoilers cliquables** : encadre du texte avec `||double pipe||` dans une publication
+  ou un commentaire, il est masqué jusqu'au clic
 - **Upload de photos** (jusqu'à 6 par publication, 8 Mo chacune)
 - Commentaires sous chaque publication
 - Flux chronologique avec compteurs commentaires + photos
@@ -82,6 +86,8 @@ Site dispo sur http://localhost:3000.
 | `TMDB_API_KEY`                 | Clé API TMDB pour film/série.                   |
 | `TWITCH_CLIENT_ID`             | Twitch app ID (pour IGDB).                      |
 | `TWITCH_CLIENT_SECRET`         | Twitch app secret (pour IGDB).                  |
+| `SPOTIFY_CLIENT_ID`            | Optionnel — Spotify pour podcasts.              |
+| `SPOTIFY_CLIENT_SECRET`        | Optionnel — Spotify pour podcasts.              |
 | `GOOGLE_BOOKS_API_KEY`         | Optionnel.                                      |
 
 ## Déploiement (Vercel + Supabase)

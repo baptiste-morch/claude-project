@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAuthed } from '@/lib/session';
 import { getIgdbToken } from '@/lib/igdb';
+import { getSpotifyToken } from '@/lib/spotify';
 
 export const runtime = 'nodejs';
 
@@ -26,6 +27,7 @@ export async function GET(req: NextRequest) {
     if (type === 'serie') return NextResponse.json({ results: await searchTmdb(q, 'tv') });
     if (type === 'livre') return NextResponse.json({ results: await searchBooks(q) });
     if (type === 'jeu') return NextResponse.json({ results: await searchIgdb(q) });
+    if (type === 'podcast') return NextResponse.json({ results: await searchPodcast(q) });
     if (type === 'video') return NextResponse.json({ results: await resolveVideoUrl(q) });
     return NextResponse.json({ results: [] });
   } catch (e) {
@@ -114,6 +116,100 @@ async function searchIgdb(q: string): Promise<SearchResult[]> {
       : null,
     subtitle: g.summary ? truncate(g.summary, 140) : null,
   }));
+}
+
+async function searchPodcast(q: string): Promise<SearchResult[]> {
+  // Run Apple Podcasts (iTunes Search, no key) for shows + episodes,
+  // and Spotify in parallel if credentials are configured.
+  const [appleShows, appleEpisodes, spotify] = await Promise.all([
+    searchItunes(q, 'podcast'),
+    searchItunes(q, 'podcastEpisode'),
+    searchSpotifyPodcast(q),
+  ]);
+
+  // Merge: prefer Apple shows first (most relevant for general podcast search),
+  // then episodes, then Spotify extras. Dedupe loosely by title.
+  const seen = new Set<string>();
+  const merged: SearchResult[] = [];
+  for (const list of [appleShows, appleEpisodes, spotify]) {
+    for (const r of list) {
+      const dedupeKey = r.title.toLowerCase();
+      if (seen.has(dedupeKey)) continue;
+      seen.add(dedupeKey);
+      merged.push(r);
+      if (merged.length >= 8) break;
+    }
+    if (merged.length >= 8) break;
+  }
+  return merged;
+}
+
+async function searchItunes(q: string, entity: 'podcast' | 'podcastEpisode'): Promise<SearchResult[]> {
+  const url = new URL('https://itunes.apple.com/search');
+  url.searchParams.set('term', q);
+  url.searchParams.set('media', 'podcast');
+  url.searchParams.set('entity', entity);
+  url.searchParams.set('limit', '6');
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return (data.results || []).map((r: any): SearchResult => {
+    const isEpisode = entity === 'podcastEpisode';
+    const title = isEpisode ? r.trackName : r.collectionName;
+    const showName = isEpisode ? r.collectionName : r.artistName;
+    const date = r.releaseDate || '';
+    const year = date ? parseInt(date.slice(0, 4), 10) || null : null;
+    const cover = r.artworkUrl600 || r.artworkUrl100 || null;
+    const externalId = isEpisode
+      ? `apple-ep:${r.trackId}`
+      : `apple:${r.collectionId}`;
+    return {
+      external_id: externalId,
+      title: title || '(sans titre)',
+      year,
+      cover_url: cover,
+      subtitle: isEpisode && showName ? `Épisode · ${showName}` : showName || null,
+    };
+  });
+}
+
+async function searchSpotifyPodcast(q: string): Promise<SearchResult[]> {
+  const token = await getSpotifyToken();
+  if (!token) return [];
+  const url = new URL('https://api.spotify.com/v1/search');
+  url.searchParams.set('q', q);
+  url.searchParams.set('type', 'show,episode');
+  url.searchParams.set('limit', '4');
+  url.searchParams.set('market', 'FR');
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  const results: SearchResult[] = [];
+  for (const s of data.shows?.items || []) {
+    if (!s) continue;
+    results.push({
+      external_id: `spotify-show:${s.id}`,
+      title: s.name,
+      year: null,
+      cover_url: s.images?.[0]?.url || null,
+      subtitle: s.publisher || null,
+    });
+  }
+  for (const e of data.episodes?.items || []) {
+    if (!e) continue;
+    const date = e.release_date || '';
+    results.push({
+      external_id: `spotify-ep:${e.id}`,
+      title: e.name,
+      year: date ? parseInt(date.slice(0, 4), 10) || null : null,
+      cover_url: e.images?.[0]?.url || null,
+      subtitle: 'Épisode (Spotify)',
+    });
+  }
+  return results;
 }
 
 async function resolveVideoUrl(q: string): Promise<SearchResult[]> {

@@ -19,11 +19,23 @@ export type Comment = {
   created_at: string;
 };
 
+export type Reaction = {
+  id: string;
+  target_type: 'post' | 'comment';
+  target_id: string;
+  author: string;
+  emoji: string;
+  created_at: string;
+};
+
+export const REACTION_EMOJIS = ['👍', '❤️', '😂', '🤔'] as const;
+
 export const POST_TYPES = [
   { value: 'film', label: 'Film', emoji: '🎬', autocomplete: 'tmdb-movie' },
   { value: 'serie', label: 'Série', emoji: '📺', autocomplete: 'tmdb-tv' },
   { value: 'livre', label: 'Livre', emoji: '📚', autocomplete: 'books' },
   { value: 'jeu', label: 'Jeu vidéo', emoji: '🎮', autocomplete: 'igdb' },
+  { value: 'podcast', label: 'Podcast', emoji: '🎙️', autocomplete: 'podcast' },
   { value: 'video', label: 'Vidéo', emoji: '📽️', autocomplete: 'oembed' },
 ] as const;
 
