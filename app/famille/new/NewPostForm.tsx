@@ -10,6 +10,7 @@ type SearchResult = {
   year: number | null;
   cover_url: string | null;
   subtitle: string | null;
+  direct_url: string | null;
 };
 
 const TYPE_META = Object.fromEntries(POST_TYPES.map((t) => [t.value, t]));
@@ -21,6 +22,7 @@ export default function NewPostForm({ initialError }: { initialError?: string })
   const [searching, setSearching] = useState(false);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<SearchResult | null>(null);
+  const [directUrl, setDirectUrl] = useState('');
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(initialError);
@@ -71,6 +73,8 @@ export default function NewPostForm({ initialError }: { initialError?: string })
     setSelected(r);
     setTitle(r.title);
     setOpen(false);
+    // Auto-fill the direct link only if the user hasn't already typed one.
+    if (r.direct_url && !directUrl) setDirectUrl(r.direct_url);
   }
 
   function clearSelected() {
@@ -204,6 +208,19 @@ export default function NewPostForm({ initialError }: { initialError?: string })
           required
           maxLength={5000}
           placeholder="Astuce : encadre un spoiler avec ||double pipe|| pour le cacher"
+        />
+      </div>
+
+      <div className="row">
+        <label htmlFor="direct_url">Lien direct (où le voir / écouter / lire) — optionnel</label>
+        <input
+          id="direct_url"
+          name="direct_url"
+          type="url"
+          value={directUrl}
+          onChange={(e) => setDirectUrl(e.target.value)}
+          placeholder="https://… (Netflix, Spotify, YouTube, Apple Podcasts…)"
+          maxLength={2000}
         />
       </div>
 

@@ -11,6 +11,7 @@ export type SearchResult = {
   year: number | null;
   cover_url: string | null;
   subtitle: string | null;
+  direct_url: string | null;
 };
 
 export async function GET(req: NextRequest) {
@@ -57,6 +58,7 @@ async function searchTmdb(q: string, kind: 'movie' | 'tv'): Promise<SearchResult
       year,
       cover_url: r.poster_path ? `https://image.tmdb.org/t/p/w342${r.poster_path}` : null,
       subtitle: r.overview ? truncate(r.overview, 140) : null,
+      direct_url: null,
     };
   });
 }
@@ -83,6 +85,7 @@ async function searchBooks(q: string): Promise<SearchResult[]> {
       year,
       cover_url: cover ? cover.replace('http://', 'https://') : null,
       subtitle: (v.authors || []).join(', ') || null,
+      direct_url: v.canonicalVolumeLink || v.infoLink || null,
     };
   });
 }
@@ -115,6 +118,7 @@ async function searchIgdb(q: string): Promise<SearchResult[]> {
       ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${g.cover.image_id}.jpg`
       : null,
     subtitle: g.summary ? truncate(g.summary, 140) : null,
+    direct_url: null,
   }));
 }
 
@@ -163,12 +167,14 @@ async function searchItunes(q: string, entity: 'podcast' | 'podcastEpisode'): Pr
     const externalId = isEpisode
       ? `apple-ep:${r.trackId}`
       : `apple:${r.collectionId}`;
+    const direct = isEpisode ? r.trackViewUrl || null : r.collectionViewUrl || null;
     return {
       external_id: externalId,
       title: title || '(sans titre)',
       year,
       cover_url: cover,
       subtitle: isEpisode && showName ? `Épisode · ${showName}` : showName || null,
+      direct_url: direct,
     };
   });
 }
@@ -196,6 +202,7 @@ async function searchSpotifyPodcast(q: string): Promise<SearchResult[]> {
       year: null,
       cover_url: s.images?.[0]?.url || null,
       subtitle: s.publisher || null,
+      direct_url: s.external_urls?.spotify || null,
     });
   }
   for (const e of data.episodes?.items || []) {
@@ -207,6 +214,7 @@ async function searchSpotifyPodcast(q: string): Promise<SearchResult[]> {
       year: date ? parseInt(date.slice(0, 4), 10) || null : null,
       cover_url: e.images?.[0]?.url || null,
       subtitle: 'Épisode (Spotify)',
+      direct_url: e.external_urls?.spotify || null,
     });
   }
   return results;
@@ -234,6 +242,7 @@ async function resolveVideoUrl(q: string): Promise<SearchResult[]> {
       year: null,
       cover_url: data.thumbnail_url || null,
       subtitle: data.author_name ? `par ${data.author_name}` : null,
+      direct_url: trimmed,
     },
   ];
 }

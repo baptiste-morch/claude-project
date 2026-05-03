@@ -7,6 +7,9 @@ import { timeAgo } from '@/lib/format';
 import { loadReactions, makeKey } from '@/lib/reactions';
 import Body from '../../components/Body';
 import Reactions from '../../components/Reactions';
+import PlatformLink from '../../components/PlatformLink';
+import PostActions from '../../components/PostActions';
+import CommentActions from '../../components/CommentActions';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,6 +47,8 @@ export default async function PostPage({
 
   const t = typeLabel(post.type);
   const postReactions = reactions.get(makeKey('post', post.id)) ?? [];
+  const isMyPost = me === post.author;
+  const postEdited = post.updated_at && post.updated_at !== post.created_at;
 
   return (
     <>
@@ -66,8 +71,16 @@ export default async function PostPage({
                 {post.year ? <span className="muted" style={{ fontWeight: 400 }}> · {post.year}</span> : null}
               </h2>
             </div>
-            <div className="muted">par {post.author} · {timeAgo(post.created_at)}</div>
+            <div className="muted">
+              par {post.author} · {timeAgo(post.created_at)}
+              {postEdited ? ' · (modifié)' : ''}
+            </div>
             <div className="body"><Body text={post.body} /></div>
+            {post.direct_url && (
+              <div style={{ marginTop: 10 }}>
+                <PlatformLink url={post.direct_url} />
+              </div>
+            )}
           </div>
         </div>
 
@@ -82,8 +95,17 @@ export default async function PostPage({
           </div>
         )}
 
-        <div style={{ marginTop: 14 }}>
+        <div style={{ marginTop: 14, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
           <Reactions targetType="post" targetId={post.id} initial={postReactions} />
+          {isMyPost && (
+            <PostActions
+              postId={post.id}
+              initialTitle={post.title}
+              initialBody={post.body}
+              initialDirectUrl={post.direct_url}
+              redirectAfterDelete="/famille"
+            />
+          )}
         </div>
 
         <h3 style={{ marginTop: 24, marginBottom: 0, fontSize: 16 }}>
@@ -93,15 +115,25 @@ export default async function PostPage({
 
         {(comments ?? []).map((c: Comment) => {
           const cr = reactions.get(makeKey('comment', c.id)) ?? [];
+          const isMyComment = me === c.author;
+          const commentEdited = c.updated_at && c.updated_at !== c.created_at;
           return (
             <div key={c.id} className="comment">
               <div className="muted">
                 <strong style={{ color: 'var(--ink)' }}>{c.author}</strong> ·{' '}
                 {timeAgo(c.created_at)}
+                {commentEdited ? ' · (modifié)' : ''}
               </div>
               <div className="body"><Body text={c.body} /></div>
-              <div style={{ marginTop: 6 }}>
+              <div style={{ marginTop: 6, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                 <Reactions targetType="comment" targetId={c.id} initial={cr} />
+                {isMyComment && (
+                  <CommentActions
+                    postId={post.id}
+                    commentId={c.id}
+                    initialBody={c.body}
+                  />
+                )}
               </div>
             </div>
           );

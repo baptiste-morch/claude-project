@@ -10,9 +10,11 @@ create table if not exists posts (
   body text not null,
   external_id text,
   cover_url text,
+  direct_url text,
   year int,
   photos text[] not null default '{}',
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
 
 create index if not exists posts_created_at_idx on posts (created_at desc);
@@ -22,8 +24,24 @@ create table if not exists comments (
   post_id uuid not null references posts(id) on delete cascade,
   author text not null,
   body text not null,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
+
+create or replace function set_updated_at() returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+drop trigger if exists posts_set_updated_at on posts;
+create trigger posts_set_updated_at before update on posts
+  for each row execute function set_updated_at();
+
+drop trigger if exists comments_set_updated_at on comments;
+create trigger comments_set_updated_at before update on comments
+  for each row execute function set_updated_at();
 
 create index if not exists comments_post_idx on comments (post_id, created_at);
 

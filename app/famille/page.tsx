@@ -7,6 +7,8 @@ import { timeAgo } from '@/lib/format';
 import { loadReactions, makeKey } from '@/lib/reactions';
 import Body from './components/Body';
 import Reactions from './components/Reactions';
+import PlatformLink from './components/PlatformLink';
+import PostActions from './components/PostActions';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,6 +53,8 @@ export default async function HomePage() {
           const t = typeLabel(p.type);
           const n = countMap.get(p.id) ?? 0;
           const r = reactions.get(makeKey('post', p.id)) ?? [];
+          const isMine = me === p.author;
+          const edited = p.updated_at && p.updated_at !== p.created_at;
           return (
             <article key={p.id} className="card">
               <div className="post-row">
@@ -70,14 +74,30 @@ export default async function HomePage() {
                       </h2>
                     </Link>
                   </div>
-                  <div className="muted">par {p.author} · {timeAgo(p.created_at)}</div>
+                  <div className="muted">
+                    par {p.author} · {timeAgo(p.created_at)}
+                    {edited ? ' · (modifié)' : ''}
+                  </div>
                   <div className="body"><Body text={p.body} /></div>
+                  {p.direct_url && (
+                    <div style={{ marginTop: 8 }}>
+                      <PlatformLink url={p.direct_url} />
+                    </div>
+                  )}
                   <div className="actions">
                     <Reactions targetType="post" targetId={p.id} initial={r} />
                     <Link href={`/famille/p/${p.id}`} className="muted">
                       💬 {n} {n === 1 ? 'commentaire' : 'commentaires'}
                       {p.photos.length > 0 ? ` · 📷 ${p.photos.length}` : ''}
                     </Link>
+                    {isMine && (
+                      <PostActions
+                        postId={p.id}
+                        initialTitle={p.title}
+                        initialBody={p.body}
+                        initialDirectUrl={p.direct_url}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

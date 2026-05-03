@@ -362,6 +362,55 @@ form .row { margin-bottom: 4px; }
   font-variant-numeric: tabular-nums;
 }
 
+/* Platform link */
+.platform-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.platform-link:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.platform-emoji { font-size: 16px; line-height: 1; }
+
+/* Author actions */
+.author-actions {
+  display: inline-flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.author-actions-inline { margin-left: 0; }
+
+.link-btn-danger { color: #b91c1c; }
+
+.edit-form {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--accent-soft);
+  border-radius: 10px;
+}
+
+.edit-form label {
+  margin-top: 8px;
+}
+
+.edit-form label:first-of-type {
+  margin-top: 0;
+}
+
 /* Spoilers */
 .spoiler {
   background: var(--ink);

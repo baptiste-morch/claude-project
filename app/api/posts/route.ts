@@ -21,6 +21,8 @@ export async function POST(req: NextRequest) {
   const body = String(form.get('body') || '').trim().slice(0, 5000);
   const externalId = (String(form.get('external_id') || '').trim() || null);
   const coverUrl = (String(form.get('cover_url') || '').trim() || null);
+  const directUrlRaw = String(form.get('direct_url') || '').trim();
+  const directUrl = isValidHttpUrl(directUrlRaw) ? directUrlRaw.slice(0, 2000) : null;
   const yearRaw = String(form.get('year') || '').trim();
   const year = yearRaw && /^\d{1,4}$/.test(yearRaw) ? parseInt(yearRaw, 10) : null;
 
@@ -63,6 +65,7 @@ export async function POST(req: NextRequest) {
     body,
     external_id: externalId,
     cover_url: coverUrl,
+    direct_url: directUrl,
     year,
     photos: photoUrls,
   });
@@ -72,6 +75,16 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ id });
+}
+
+function isValidHttpUrl(s: string): boolean {
+  if (!s) return false;
+  try {
+    const u = new URL(s);
+    return u.protocol === 'http:' || u.protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 function mimeToExt(mime: string): string | null {

@@ -6,9 +6,11 @@ export type Post = {
   body: string;
   external_id: string | null;
   cover_url: string | null;
+  direct_url: string | null;
   year: number | null;
   photos: string[];
   created_at: string;
+  updated_at: string;
 };
 
 export type Comment = {
@@ -17,6 +19,7 @@ export type Comment = {
   author: string;
   body: string;
   created_at: string;
+  updated_at: string;
 };
 
 export type Reaction = {
