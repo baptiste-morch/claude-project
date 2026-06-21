@@ -286,12 +286,12 @@ export const realisations: Realisation[] = [
       "Bâtir un réseau à partir de rien pour lancer l'OBNL Flambeau : 50 à 70 rencontres en quelques mois, premiers mandats de service obtenus, conseil d'administration aussi pertinent qu'engagé. De quoi placer l'organisation sur la carte de l'innovation sociale.",
   },
   {
-    id: 'fcvq',
-    title: 'FCVQ',
+    id: 'off-numerique',
+    title: 'OFF Numérique',
     color: '#E2447C',
-    tag: 'Livraison sous contraintes',
+    tag: 'Animation de panel',
     desc:
-      "Festival de cinéma de la Ville de Québec. Budget très limité, projections de dépassement initiales à +50-60 %, délais serrés. Avec l'équipe, on s'est relevé les manches : portée maîtrisée, dépassement final contenu à 30 %, livraison à temps. Ma plus grande réussite de l'époque.",
+      "Organisation et animation du panel d'ouverture de l'événement OFF Numérique, avec des exemples inspirants d'organismes en processus de transformation numérique. Préparer, fédérer les intervenant·e·s et livrer une performance qui rend un enjeu complexe vivant et accessible.",
   },
 ];
 

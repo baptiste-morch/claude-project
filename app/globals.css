@@ -556,49 +556,10 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   margin: 0;
 }
 
-/* ── Rail de progression (fixe à gauche) ─────────────────── */
-[data-brand="morch"] .cv-rail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 54px;
-  height: 100vh;
-  z-index: 40;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-}
-[data-brand="morch"] .cv-rail-track {
-  position: relative;
-  width: 2px;
-  height: 100%;
-  background: rgba(24,26,46,0.1);
-}
-[data-brand="morch"] .cv-rail-fill {
-  position: absolute;
-  top: 0;
-  left: -1px;
-  width: 4px;
-  height: 0%;
-  background: linear-gradient(var(--cobalt), var(--framboise));
-  border-radius: 2px;
-}
-[data-brand="morch"] .cv-rail-node {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--papier);
-  border: 2px solid rgba(24,26,46,0.2);
-  transition: background .4s var(--ease), border-color .4s var(--ease), transform .4s var(--ease);
-}
-
-/* ── Sections : largeur de contenu, padding gauche pour rail ── */
+/* ── Sections : largeur de contenu centrée ─────────────────── */
 [data-brand="morch"] .cv-section {
   position: relative;
-  padding-left: 86px;
+  padding-left: 32px;
   padding-right: 32px;
 }
 [data-brand="morch"] .cv-content {
@@ -606,8 +567,17 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   margin: 0 auto;
 }
 
+/* ── Reveals au scroll ─────────────────────────────────────
+   On bascule data-revealed="true" via IntersectionObserver.
+   Pas de styles inline → la règle dim des filtres peut gagner. */
 [data-brand="morch"] [data-reveal] {
-  /* État initial (avant JS) : visible. Le JS ajoutera l'opacité 0 + translate. */
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+[data-brand="morch"] [data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
 }
 
 /* ── SPLASH ───────────────────────────────────────────────── */
@@ -619,7 +589,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 80px 32px 80px 86px;
+  padding: 80px 32px;
   background: var(--encre);
   color: var(--papier);
   overflow: hidden;
@@ -884,9 +854,13 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 [data-brand="morch"] .cv-exp {
   position: relative;
   padding-bottom: 18px;
-  transition: opacity .3s var(--ease);
 }
-[data-brand="morch"] .cv-exp[data-dim="true"] { opacity: 0.28; }
+/* Dim doit gagner contre la règle reveal (spécificité plus haute). */
+[data-brand="morch"] .cv-exp[data-reveal][data-dim="true"],
+[data-brand="morch"] .cv-exp[data-reveal][data-revealed="true"][data-dim="true"] {
+  opacity: 0.28;
+  transform: none;
+}
 [data-brand="morch"] .cv-exp-dot {
   position: absolute;
   left: -34px;
@@ -1205,9 +1179,8 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 
 /* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 720px) {
-  [data-brand="morch"] .cv-section { padding-left: 64px; padding-right: 20px; }
-  [data-brand="morch"] .cv-splash  { padding-left: 64px; padding-right: 20px; }
-  [data-brand="morch"] .cv-rail    { width: 40px; }
+  [data-brand="morch"] .cv-section { padding-left: 20px; padding-right: 20px; }
+  [data-brand="morch"] .cv-splash  { padding: 64px 20px; }
   [data-brand="morch"] .cv-terr-grid,
   [data-brand="morch"] .cv-vibrer-grid,
   [data-brand="morch"] .cv-formation-grid { grid-template-columns: 1fr; }
@@ -1225,5 +1198,9 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   [data-brand="morch"] * {
     transition: none !important;
     animation: none !important;
+  }
+  [data-brand="morch"] [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

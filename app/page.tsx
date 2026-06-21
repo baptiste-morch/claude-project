@@ -13,9 +13,6 @@ import {
   type TerritoireId,
 } from '@/lib/cv-content';
 
-// Positions verticales (0→1) des nœuds jalon sur le rail de progression.
-const RAIL_NODES = [0.07, 0.2, 0.34, 0.5, 0.66, 0.82, 0.95];
-
 // Rendu d'un pitch avec **gras** → <strong>.
 function renderPitch(text: string) {
   const parts = text.split(/\*\*(.+?)\*\*/g);
@@ -32,76 +29,42 @@ export default function MorchPage() {
   const [openExp, setOpenExp] = useState<Set<string>>(new Set());
   const [photoOk, setPhotoOk] = useState(true);
 
-  const railFillRef = useRef<HTMLDivElement>(null);
-  const railNodesRef = useRef<(HTMLSpanElement | null)[]>([]);
   const timelineRef = useRef<HTMLDivElement>(null);
   const timelineFillRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  // Scroll-driven rail + timeline fill
+  // Scroll-driven timeline fill (rail global retiré, on garde seulement le fil du parcours).
   useEffect(() => {
     const onScroll = () => {
-      const max =
-        (document.documentElement.scrollHeight - window.innerHeight) || 1;
-      const pct = Math.min(1, Math.max(0, window.scrollY / max));
-
-      if (railFillRef.current) {
-        railFillRef.current.style.height = (pct * 100).toFixed(2) + '%';
-      }
-      RAIL_NODES.forEach((pos, i) => {
-        const node = railNodesRef.current[i];
-        if (!node) return;
-        const on = pct >= pos - 0.005;
-        node.style.background = on ? '#2B4BF2' : '#F7F4ED';
-        node.style.borderColor = on ? '#2B4BF2' : 'rgba(24,26,46,0.2)';
-        node.style.transform = on
-          ? 'translate(-50%,-50%) scale(1.25)'
-          : 'translate(-50%,-50%)';
-      });
       if (timelineRef.current && timelineFillRef.current) {
         const r = timelineRef.current.getBoundingClientRect();
         const vh = window.innerHeight;
-        const prog = Math.min(
-          1,
-          Math.max(0, (vh * 0.55 - r.top) / r.height)
-        );
-        timelineFillRef.current.style.height =
-          (prog * r.height).toFixed(0) + 'px';
+        const prog = Math.min(1, Math.max(0, (vh * 0.55 - r.top) / r.height));
+        timelineFillRef.current.style.height = (prog * r.height).toFixed(0) + 'px';
       }
     };
-
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // IntersectionObserver reveals
+  // IntersectionObserver reveals : on bascule data-revealed via attribut,
+  // pas via style.opacity inline (sinon ça écraserait la règle dim des filtres).
   useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
     const reduce =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
     if (reduce) {
-      els.forEach((el) => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
+      els.forEach((el) => el.setAttribute('data-revealed', 'true'));
       return;
     }
-    els.forEach((el) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(26px)';
-      el.style.transition =
-        'opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)';
-    });
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            const el = e.target as HTMLElement;
-            el.style.opacity = '1';
-            el.style.transform = 'none';
+            e.target.setAttribute('data-revealed', 'true');
             io.unobserve(e.target);
           }
         });
@@ -112,15 +75,13 @@ export default function MorchPage() {
     return () => io.disconnect();
   }, []);
 
-  // Quand on déplie/replie, ajuster le max-height pour l'anim CSS
+  // Anim déplier/replier les expériences
   useEffect(() => {
     panelRefs.current.forEach((panel, id) => {
       if (openExp.has(id)) {
         panel.style.maxHeight = panel.scrollHeight + 40 + 'px';
-        panel.style.marginTop = '0';
       } else {
         panel.style.maxHeight = '0';
-        panel.style.marginTop = '0';
       }
     });
   }, [openExp]);
@@ -141,21 +102,6 @@ export default function MorchPage() {
 
   return (
     <div data-brand="morch">
-      {/* ─── Rail de progression fixe ─── */}
-      <div className="cv-rail" aria-hidden="true">
-        <div className="cv-rail-track">
-          <div ref={railFillRef} className="cv-rail-fill" />
-          {RAIL_NODES.map((pos, i) => (
-            <span
-              key={pos}
-              ref={(el) => { railNodesRef.current[i] = el; }}
-              className="cv-rail-node"
-              style={{ top: `${pos * 100}%` }}
-            />
-          ))}
-        </div>
-      </div>
-
       {/* ─── SPLASH ─── */}
       <section className="cv-splash">
         <svg
