@@ -30,6 +30,7 @@ const colorOf: Record<TerritoireId, string> = territoires.reduce(
 export default function MorchPage() {
   const [filter, setFilter] = useState<TerritoireId | null>(null);
   const [openExp, setOpenExp] = useState<Set<string>>(new Set());
+  const [photoOk, setPhotoOk] = useState(true);
 
   const railFillRef = useRef<HTMLDivElement>(null);
   const railNodesRef = useRef<(HTMLSpanElement | null)[]>([]);
@@ -173,13 +174,21 @@ export default function MorchPage() {
         </svg>
 
         <div className="cv-splash-inner">
-          <div className="cv-photo" aria-hidden="true">
-            {/* Glisser une photo dans /public/baptiste.jpg pour remplacer la marque */}
-            <svg viewBox="0 0 100 100" width="92" height="92">
-              <path d="M30 70 C 30 44 70 60 70 30" fill="none" stroke="#F7F4ED" strokeWidth="7" strokeLinecap="round" />
-              <circle cx="30" cy="70" r="14" fill="#2B4BF2" />
-              <circle cx="70" cy="30" r="14" fill="#E2447C" />
-            </svg>
+          <div className="cv-photo">
+            {photoOk ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src="/baptiste.jpg"
+                alt="Baptiste Morch"
+                onError={() => setPhotoOk(false)}
+              />
+            ) : (
+              <svg viewBox="0 0 100 100" width="92" height="92" aria-hidden="true">
+                <path d="M30 70 C 30 44 70 60 70 30" fill="none" stroke="#F7F4ED" strokeWidth="7" strokeLinecap="round" />
+                <circle cx="30" cy="70" r="14" fill="#2B4BF2" />
+                <circle cx="70" cy="30" r="14" fill="#E2447C" />
+              </svg>
+            )}
           </div>
           <div>
             <div className="cv-hello">{profile.hello}</div>
