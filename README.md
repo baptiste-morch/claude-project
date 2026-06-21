@@ -24,11 +24,10 @@ des deux côtés de l'Atlantique.
 
 ## Backend Supabase déjà provisionné
 
-Le projet `supabase-purple-zebra` est déjà créé avec le schéma et le bucket
-`photos` :
+Un projet Supabase est déjà créé avec le schéma et le bucket `photos` :
 
-- **Project URL** : `https://ouedelavypygwvxxuudv.supabase.co`
-- **Project ref** : `ouedelavypygwvxxuudv`
+- **Project URL / ref** : voir les variables d'environnement privées (non
+  versionnées) du déploiement.
 - **Region** : `us-east-1`
 - Tables `posts`, `comments` créées (RLS activé)
 - Bucket Storage `photos` (public) créé
@@ -39,7 +38,8 @@ L'app utilise une clé secrète Supabase côté serveur uniquement (jamais expos
 au navigateur). Elle n'est pas accessible via API automatique pour des raisons
 de sécurité — il faut la copier depuis le dashboard :
 
-1. Ouvre https://supabase.com/dashboard/project/ouedelavypygwvxxuudv/settings/api-keys
+1. Ouvre `https://supabase.com/dashboard/project/<project-ref>/settings/api-keys`
+   (le `<project-ref>` est dans tes variables d'environnement privées).
 2. Onglet **Secret keys** :
    - Si une clé `sb_secret_...` existe déjà → clique **Reveal** et copie-la.
    - Sinon → **Create new API key** (nom au choix, ex. `famille-app`) → Reveal → copie.
