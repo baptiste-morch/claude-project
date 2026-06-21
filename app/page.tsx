@@ -178,7 +178,7 @@ export default function MorchPage() {
             {photoOk ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src="/baptiste.jpg"
+                src="/bapt-carre.jpg"
                 alt="Baptiste Morch"
                 onError={() => setPhotoOk(false)}
               />
