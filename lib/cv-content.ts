@@ -66,7 +66,7 @@ export const profile = {
 };
 
 export const pitch =
-  "Mon métier, mon plaisir et ma manière d'être tiennent dans une phrase : **créer des liens improbables**. Entre une idée et une personne. Entre une cause et son public. Entre deux mondes qui s'ignorent. Au micro comme dans la vie, j'écoute, j'associe et je raconte. Je cherche le point de contact que personne n'avait vu — celui qui fait sens, et qui fait du bien.";
+  "Mon métier, mon plaisir et ma manière d'être tiennent dans une phrase : **créer des liens improbables**. Entre une idée et une personne. Entre une cause et son public. Au micro comme dans la vie, j'écoute, j'associe et je raconte. J'aime mettre en valeur et servir des humains et des causes sociales et environnementales.";
 
 export const territoires: Territoire[] = [
   {
@@ -332,7 +332,7 @@ export const formation: FormationItem[] = [
     note: '94 / 100',
   },
   {
-    school: 'ISEG (Paris)',
+    school: 'ISEG (Nantes)',
     degree: 'Master Marketing & Communication (Bac+5)',
     year: '2010–2013',
     note: "Brand management, stratégie d'entreprise",
