@@ -249,23 +249,6 @@ export const experiences: Experience[] = [
       "Reconnu par les devs et designers pour bien les comprendre et les représenter.",
     ],
   },
-  {
-    id: 'debuts',
-    role: 'Premières armes — webmarketing & dev',
-    org: 'Rivadis · ACEOS · Consultant · SAS Institute',
-    dates: '2010 – 2014',
-    start: 2010,
-    end: 2014,
-    territoires: ['voix', 'numerique'],
-    pitch:
-      "Stages fondateurs : marketing digital, partenariats, bénévolat de conseil et business intelligence.",
-    bullets: [
-      "Laboratoire Rivadis (2012-2013) : campagne d'influence avant l'heure — 15 blogueuses, +1000 fans Facebook, idée primée à l'interne.",
-      "ACEOS (2012) : refonte de site menée côté client, gains SEO (1 à 10 places selon les termes), mandat proposé à la sortie du stage.",
-      "Consultant bénévole (2013-2014) : conseil pour une formation pro, une décoratrice d'intérieur et une structure jeunesse — blogs WordPress.",
-      "SAS Institute (2010) : outil de business intelligence codé from scratch pour le comité d'entreprise, salué par le superviseur.",
-    ],
-  },
 ];
 
 export const realisations: Realisation[] = [
@@ -306,18 +289,25 @@ export const vibrer: string[] = [
 
 export const scene: SceneItem[] = [
   {
+    role: 'Hôte du podcast « J\'adore ça »',
+    org: 'Production indépendante',
+    dates: 'Janv. 2024 – présent',
+    desc:
+      "Plus de deux ans d'épisodes : conversations enthousiastes avec des invité·e·s autour de ce qui les fait vibrer. Préparation, conduite d'entretien, montage et diffusion.",
+  },
+  {
+    role: 'Improvisateur & aide à la régie',
+    org: 'Improdôme (OBNL, arts et culture)',
+    dates: 'Janv. 2019 – présent',
+    desc:
+      "En plus des tâches logistiques et de régie son/lumière, j'anime et participe à un show d'impro mensuel depuis 2019 — pacing, ambiance, public.",
+  },
+  {
     role: 'Chroniqueur technologique',
     org: 'CKIA — émission « Québec Réveille »',
     dates: 'Sept. 2018 – juin 2020',
     desc:
       "Chronique aux deux semaines : 3-4 h de recherche pour 10 minutes d'antenne accessibles à toutes et tous.",
-  },
-  {
-    role: 'Assistant régisseur',
-    org: 'Improdôme (OBNL, arts et culture)',
-    dates: 'Janv. 2019 – présent',
-    desc:
-      "Logistique des soirées, régie son/lumière, gestion du pacing et de l'ambiance d'un show.",
   },
   {
     role: 'Chargé de projets & communications',
