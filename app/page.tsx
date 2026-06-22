@@ -159,7 +159,7 @@ export default function MorchPage() {
       <section className="cv-section cv-pitch">
         <div className="cv-content">
           <div className="cv-kicker" data-reveal>
-            <span className="cv-kicker-label" style={{ color: '#2B4BF2' }}>Le pitch</span>
+            <span className="cv-kicker-label" style={{ color: '#2B4BF2' }}>En gros</span>
             <span className="cv-kicker-rule" />
           </div>
           <p data-reveal>{renderPitch(pitch)}</p>
