@@ -1,6 +1,73 @@
-/* ─────────────  FAMILLE MORCH — DESIGN TOKENS  ───────────── */
-/* Direction A — Maisonnée  ·  warm, editorial, intimate     */
-:root[data-brand="maisonnee"] {
+/* ─────────────────────────────────────────────────────────────────────
+   Reset minimal — partagé par les deux univers
+   ───────────────────────────────────────────────────────────────────── */
+
+/* =====================================================================
+   UNIVERS « HOME » — splash page racine (/)
+   ===================================================================== */
+
+[data-brand="home"] {
+  position: relative;
+  min-height: 100vh;
+  background: #181A2E;
+  color: #F7F4ED;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-brand="home"] .home-center {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  user-select: none;
+}
+
+[data-brand="home"] .home-title {
+  font-size: clamp(56px, 10vw, 120px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+[data-brand="home"] .home-name {
+  color: #5C79FF;
+}
+
+[data-brand="home"] .home-kw {
+  position: absolute;
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  [data-brand="home"] .home-kw { display: none; }
+  [data-brand="home"] .home-title { font-size: clamp(48px, 14vw, 72px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brand="home"] .home-kw { transform: none !important; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* =====================================================================
+   UNIVERS « MAISONNÉE » — outil familial (/famille)
+   Scopé à [data-brand="maisonnee"] : pas de fuite vers la racine.
+   ===================================================================== */
+
+[data-brand="maisonnee"] {
   /* Color · Surface */
   --bg:           #f1e7d6;
   --paper:        #faf3e6;
@@ -12,10 +79,10 @@
   --rule:         #d8c2a1;
 
   /* Color · Accents */
-  --accent:        #b65a3a; /* Terre cuite — primary */
-  --accent-deep:   #8a3a26; /* Argile */
-  --accent-warm:   #c8923a; /* Ocre */
-  --accent-natural:#6b7a3a; /* Mousse */
+  --accent:        #b65a3a;
+  --accent-deep:   #8a3a26;
+  --accent-warm:   #c8923a;
+  --accent-natural:#6b7a3a;
 
   /* Type · Family */
   --font-display: "Fraunces", serif;
@@ -38,7 +105,7 @@
   --radius-sm: 3px;  --radius-md: 6px;
   --radius-lg: 12px; --radius-pill: 999px;
 
-  /* Shadow — used sparingly */
+  /* Shadow */
   --shadow-1: 0 1px 0 rgba(42,29,18,0.04);
   --shadow-2: 0 4px 24px -12px rgba(138,58,38,0.18);
 
@@ -46,58 +113,52 @@
   --ease: cubic-bezier(.2,.7,.2,1);
   --dur-1: 160ms; --dur-2: 280ms;
 
-  /* Backwards-compat aliases — kept so existing inline styles still work */
+  /* Aliases rétro-compat (utilisés en inline) */
   --surface:       var(--paper);
   --muted:         var(--mute);
   --border:        var(--rule);
   --shadow:        var(--shadow-1);
-  --accent-soft:   #f0dac9; /* tinted cream, derived from accent */
-}
+  --accent-soft:   #f0dac9;
 
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
+  /* Application de base */
+  min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--text-md);
   line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-a {
+[data-brand="maisonnee"] a {
   color: var(--accent-deep);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   transition: color var(--dur-1) var(--ease);
 }
-a:hover { color: var(--accent); }
+[data-brand="maisonnee"] a:hover { color: var(--accent); }
 
-h1, h2, h3 {
+[data-brand="maisonnee"] h1,
+[data-brand="maisonnee"] h2,
+[data-brand="maisonnee"] h3 {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
 
-.container {
+[data-brand="maisonnee"] .container {
   max-width: 720px;
   margin: 0 auto;
   padding: var(--space-5) var(--space-4) var(--space-9);
 }
 
-/* ─────────────  HEADER  ───────────── */
-
-header.site {
+/* HEADER */
+[data-brand="maisonnee"] header.site {
   border-bottom: 1px solid var(--rule);
   background: var(--paper);
 }
-
-header.site .inner {
+[data-brand="maisonnee"] header.site .inner {
   max-width: 720px;
   margin: 0 auto;
   padding: var(--space-3) var(--space-4);
@@ -106,18 +167,15 @@ header.site .inner {
   justify-content: space-between;
   gap: var(--space-3);
 }
-
-header.site h1 {
+[data-brand="maisonnee"] header.site h1 {
   font-family: var(--font-display);
   font-size: var(--text-lg);
   margin: 0;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
-
-header.site a { text-decoration: none; }
-
-header.site .meta {
+[data-brand="maisonnee"] header.site a { text-decoration: none; }
+[data-brand="maisonnee"] header.site .meta {
   color: var(--mute);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
@@ -126,9 +184,8 @@ header.site .meta {
   gap: var(--space-3);
 }
 
-/* ─────────────  BUTTONS  ───────────── */
-
-.btn {
+/* BUTTONS */
+[data-brand="maisonnee"] .btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -144,28 +201,24 @@ header.site .meta {
   text-decoration: none;
   transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
 }
-
-.btn:hover {
+[data-brand="maisonnee"] .btn:hover {
   background: var(--cream);
   border-color: var(--accent-warm);
   text-decoration: none;
 }
-
-.btn-primary {
+[data-brand="maisonnee"] .btn-primary {
   background: var(--accent);
   color: var(--paper);
   border-color: var(--accent);
 }
-
-.btn-primary:hover {
+[data-brand="maisonnee"] .btn-primary:hover {
   background: var(--accent-deep);
   border-color: var(--accent-deep);
   color: var(--paper);
 }
 
-/* ─────────────  CARDS & POSTS  ───────────── */
-
-.card {
+/* CARDS & POSTS */
+[data-brand="maisonnee"] .card {
   background: var(--paper);
   border: 1px solid var(--rule);
   border-radius: var(--radius-lg);
@@ -173,24 +226,16 @@ header.site .meta {
   margin-bottom: var(--space-3);
   box-shadow: var(--shadow-1);
 }
-
-.post-row {
-  display: flex;
-  gap: var(--space-4);
-  align-items: flex-start;
-}
-
-.post-main { flex: 1; min-width: 0; }
-
-.post-head {
+[data-brand="maisonnee"] .post-row { display: flex; gap: var(--space-4); align-items: flex-start; }
+[data-brand="maisonnee"] .post-main { flex: 1; min-width: 0; }
+[data-brand="maisonnee"] .post-head {
   display: flex;
   align-items: baseline;
   gap: var(--space-2);
   margin-bottom: var(--space-1);
   flex-wrap: wrap;
 }
-
-.badge {
+[data-brand="maisonnee"] .badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -205,8 +250,7 @@ header.site .meta {
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
-
-.post-title {
+[data-brand="maisonnee"] .post-title {
   font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: 600;
@@ -214,14 +258,12 @@ header.site .meta {
   letter-spacing: -0.015em;
   line-height: 1.2;
 }
-
-.muted {
+[data-brand="maisonnee"] .muted {
   color: var(--mute);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
 }
-
-.body {
+[data-brand="maisonnee"] .body {
   white-space: pre-wrap;
   word-wrap: break-word;
   margin: var(--space-2) 0 var(--space-1);
@@ -230,8 +272,7 @@ header.site .meta {
   line-height: 1.55;
   color: var(--ink);
 }
-
-.actions {
+[data-brand="maisonnee"] .actions {
   display: flex;
   gap: var(--space-3);
   align-items: center;
@@ -239,9 +280,8 @@ header.site .meta {
   flex-wrap: wrap;
 }
 
-/* ─────────────  COVERS & PHOTOS  ───────────── */
-
-.cover-thumb {
+/* COVERS & PHOTOS */
+[data-brand="maisonnee"] .cover-thumb {
   flex: 0 0 auto;
   width: 64px;
   height: 96px;
@@ -251,24 +291,18 @@ header.site .meta {
   display: block;
   border: 1px solid var(--rule);
 }
-
-.cover-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+[data-brand="maisonnee"] .cover-thumb img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
+[data-brand="maisonnee"] .cover-thumb-lg { width: 110px; height: 165px; }
 
-.cover-thumb-lg { width: 110px; height: 165px; }
-
-.photo-grid {
+[data-brand="maisonnee"] .photo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: var(--space-2);
   margin-top: var(--space-4);
 }
-
-.photo-grid a {
+[data-brand="maisonnee"] .photo-grid a {
   display: block;
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -276,17 +310,14 @@ header.site .meta {
   aspect-ratio: 1 / 1;
   border: 1px solid var(--rule);
 }
-
-.photo-grid img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+[data-brand="maisonnee"] .photo-grid img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
 }
 
-/* ─────────────  FORMS  ───────────── */
-
-input, textarea, select {
+/* FORMS */
+[data-brand="maisonnee"] input,
+[data-brand="maisonnee"] textarea,
+[data-brand="maisonnee"] select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--rule);
@@ -297,16 +328,15 @@ input, textarea, select {
   color: var(--ink);
   transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
 }
-
-input:focus, textarea:focus, select:focus {
+[data-brand="maisonnee"] input:focus,
+[data-brand="maisonnee"] textarea:focus,
+[data-brand="maisonnee"] select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(182, 90, 58, 0.15);
 }
-
-textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
-
-label {
+[data-brand="maisonnee"] textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+[data-brand="maisonnee"] label {
   display: block;
   font-family: var(--font-ui);
   font-size: var(--text-xs);
@@ -317,10 +347,8 @@ label {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-
-form .row { margin-bottom: 4px; }
-
-.error {
+[data-brand="maisonnee"] form .row { margin-bottom: 4px; }
+[data-brand="maisonnee"] .error {
   background: #f5d6cb;
   color: var(--accent-deep);
   padding: 10px 14px;
@@ -330,8 +358,7 @@ form .row { margin-bottom: 4px; }
   font-size: var(--text-sm);
   border: 1px solid #e5b6a4;
 }
-
-.empty {
+[data-brand="maisonnee"] .empty {
   text-align: center;
   color: var(--mute);
   padding: var(--space-8) var(--space-4);
@@ -339,27 +366,23 @@ form .row { margin-bottom: 4px; }
   font-style: italic;
 }
 
-/* ─────────────  COMMENTS  ───────────── */
-
-.comment {
+/* COMMENTS */
+[data-brand="maisonnee"] .comment {
   border-top: 1px solid var(--rule);
   padding-top: var(--space-3);
   margin-top: var(--space-3);
 }
+[data-brand="maisonnee"] .comment:first-of-type { margin-top: var(--space-4); }
 
-.comment:first-of-type { margin-top: var(--space-4); }
-
-/* ─────────────  FAB  ───────────── */
-
-.fab {
+/* FAB */
+[data-brand="maisonnee"] .fab {
   position: sticky;
   bottom: var(--space-4);
   display: flex;
   justify-content: flex-end;
   pointer-events: none;
 }
-
-.fab a {
+[data-brand="maisonnee"] .fab a {
   pointer-events: auto;
   background: var(--accent);
   color: var(--paper);
@@ -372,22 +395,14 @@ form .row { margin-bottom: 4px; }
   box-shadow: var(--shadow-2);
   transition: background var(--dur-1) var(--ease);
 }
+[data-brand="maisonnee"] .fab a:hover { background: var(--accent-deep); text-decoration: none; color: var(--paper); }
 
-.fab a:hover {
-  background: var(--accent-deep);
-  text-decoration: none;
-  color: var(--paper);
-}
-
-/* ─────────────  AUTOCOMPLETE  ───────────── */
-
-.autocomplete-wrap { position: relative; }
-
-.autocomplete-list {
+/* AUTOCOMPLETE */
+[data-brand="maisonnee"] .autocomplete-wrap { position: relative; }
+[data-brand="maisonnee"] .autocomplete-list {
   position: absolute;
   top: calc(100% + 4px);
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   background: var(--paper);
   border: 1px solid var(--rule);
   border-radius: var(--radius-md);
@@ -396,8 +411,7 @@ form .row { margin-bottom: 4px; }
   overflow-y: auto;
   z-index: 20;
 }
-
-.autocomplete-item {
+[data-brand="maisonnee"] .autocomplete-item {
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -412,12 +426,10 @@ form .row { margin-bottom: 4px; }
   font-size: var(--text-sm);
   color: var(--ink);
 }
-
-.autocomplete-item:last-child { border-bottom: 0; }
-.autocomplete-item:hover { background: var(--cream); }
-
-.autocomplete-item img,
-.autocomplete-thumb-empty {
+[data-brand="maisonnee"] .autocomplete-item:last-child { border-bottom: 0; }
+[data-brand="maisonnee"] .autocomplete-item:hover { background: var(--cream); }
+[data-brand="maisonnee"] .autocomplete-item img,
+[data-brand="maisonnee"] .autocomplete-thumb-empty {
   width: 36px;
   height: 54px;
   border-radius: var(--radius-sm);
@@ -430,10 +442,8 @@ form .row { margin-bottom: 4px; }
   font-size: 20px;
   border: 1px solid var(--rule);
 }
-
-.autocomplete-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-sm); }
-
-.selected-preview {
+[data-brand="maisonnee"] .autocomplete-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-sm); }
+[data-brand="maisonnee"] .selected-preview {
   display: flex;
   gap: var(--space-3);
   align-items: center;
@@ -443,16 +453,14 @@ form .row { margin-bottom: 4px; }
   border: 1px solid var(--rule);
   border-radius: var(--radius-md);
 }
-
-.selected-preview img {
+[data-brand="maisonnee"] .selected-preview img {
   width: 40px;
   height: 60px;
   object-fit: cover;
   border-radius: var(--radius-sm);
   border: 1px solid var(--rule);
 }
-
-.link-btn {
+[data-brand="maisonnee"] .link-btn {
   background: none;
   border: 0;
   padding: 0;
@@ -463,18 +471,11 @@ form .row { margin-bottom: 4px; }
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+[data-brand="maisonnee"] .link-btn:hover { color: var(--accent); }
 
-.link-btn:hover { color: var(--accent); }
-
-/* ─────────────  REACTIONS  ───────────── */
-
-.reactions {
-  display: inline-flex;
-  gap: var(--space-1);
-  flex-wrap: wrap;
-}
-
-.reaction {
+/* REACTIONS */
+[data-brand="maisonnee"] .reactions { display: inline-flex; gap: var(--space-1); flex-wrap: wrap; }
+[data-brand="maisonnee"] .reaction {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -489,24 +490,13 @@ form .row { margin-bottom: 4px; }
   line-height: 1.2;
   transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
 }
+[data-brand="maisonnee"] .reaction:hover { background: var(--cream); }
+[data-brand="maisonnee"] .reaction-active { background: var(--cream); border-color: var(--accent); }
+[data-brand="maisonnee"] .reaction-emoji { font-size: 14px; }
+[data-brand="maisonnee"] .reaction-count { font-weight: 600; font-variant-numeric: tabular-nums; }
 
-.reaction:hover { background: var(--cream); }
-
-.reaction-active {
-  background: var(--cream);
-  border-color: var(--accent);
-}
-
-.reaction-emoji { font-size: 14px; }
-
-.reaction-count {
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ─────────────  SPOILERS  ───────────── */
-
-.spoiler {
+/* SPOILERS */
+[data-brand="maisonnee"] .spoiler {
   background: var(--ink);
   color: var(--ink);
   border-radius: var(--radius-sm);
@@ -515,19 +505,11 @@ form .row { margin-bottom: 4px; }
   user-select: none;
   transition: background var(--dur-2) var(--ease), color var(--dur-2) var(--ease);
 }
+[data-brand="maisonnee"] .spoiler:hover { background: #4a3525; }
+[data-brand="maisonnee"] .spoiler-revealed { background: var(--cream); color: var(--ink); cursor: text; user-select: text; }
 
-.spoiler:hover { background: #4a3525; }
-
-.spoiler-revealed {
-  background: var(--cream);
-  color: var(--ink);
-  cursor: text;
-  user-select: text;
-}
-
-/* ─────────────  PLATFORM LINK  ───────────── */
-
-.platform-link {
+/* PLATFORM LINK */
+[data-brand="maisonnee"] .platform-link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -541,131 +523,741 @@ form .row { margin-bottom: 4px; }
   text-decoration: none;
   transition: background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
 }
-
-.platform-link:hover {
+[data-brand="maisonnee"] .platform-link:hover {
   background: var(--cream);
   border-color: var(--accent-warm);
   text-decoration: none;
   color: var(--ink);
 }
+[data-brand="maisonnee"] .platform-emoji { font-size: 16px; line-height: 1; }
 
-.platform-emoji { font-size: 16px; line-height: 1; }
-
-/* ─────────────  AUTHOR ACTIONS / EDIT FORM  ───────────── */
-
-.author-actions {
+/* AUTHOR ACTIONS / EDIT FORM */
+[data-brand="maisonnee"] .author-actions {
   display: inline-flex;
   gap: var(--space-3);
   margin-left: auto;
   font-family: var(--font-ui);
   font-size: var(--text-xs);
 }
-
-.author-actions-inline { margin-left: 0; }
-
-.link-btn-danger { color: var(--accent-deep); }
-.link-btn-danger:hover { color: #c23333; }
-
-.edit-form {
+[data-brand="maisonnee"] .author-actions-inline { margin-left: 0; }
+[data-brand="maisonnee"] .link-btn-danger { color: var(--accent-deep); }
+[data-brand="maisonnee"] .link-btn-danger:hover { color: #c23333; }
+[data-brand="maisonnee"] .edit-form {
   margin-top: var(--space-3);
   padding: var(--space-4);
   background: var(--cream);
   border: 1px solid var(--rule);
   border-radius: var(--radius-md);
 }
+[data-brand="maisonnee"] .edit-form label { margin-top: var(--space-3); }
+[data-brand="maisonnee"] .edit-form label:first-of-type { margin-top: 0; }
 
-.edit-form label { margin-top: var(--space-3); }
-.edit-form label:first-of-type { margin-top: 0; }
+/* =====================================================================
+   UNIVERS « MORCH » — CV interactif Baptiste Morch (/)
+   Scopé à [data-brand="morch"] : pas de fuite vers /famille.
+   ===================================================================== */
 
-/* ─────────────  LANDING PAGE  ───────────── */
+[data-brand="morch"] {
+  /* Couleurs signature */
+  --cobalt:          #2B4BF2;
+  --cobalt-light:    #5C79FF;
+  --framboise:       #E2447C;
+  --framboise-light: #F47EA6;
+  --soleil:          #F4A82A; /* graphique uniquement, jamais en texte */
+  --menthe:          #1FA37A;
 
-.landing {
-  max-width: 720px;
+  /* Encres & papiers */
+  --encre:        #181A2E;
+  --encre-deep:   #13152A;
+  --papier:       #F7F4ED;
+  --sable:        #EEEAE0;
+
+  /* Support sombre */
+  --carte-sombre:    #21243C;
+  --bordure-sombre:  #2F3350;
+  --bordure-sombre2: #34374F;
+  --texte-sec-clair: #C9CBDD;
+  --texte-tert-clair:#9A9CB4;
+
+  /* Support clair */
+  --texte-courant:    #33343F;
+  --texte-secondaire: #5A5A66;
+  --texte-tertiaire:  #8A8A94;
+  --bordure-claire:   #ECE6D9;
+  --bordure-claire2:  #E0DACB;
+
+  /* Typo */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body:    "Hanken Grotesk", system-ui, sans-serif;
+  --font-serif:   "Instrument Serif", Georgia, serif;
+
+  /* Motion */
+  --ease: cubic-bezier(.2,.7,.2,1);
+
+  /* Application de base */
+  min-height: 100vh;
+  background: var(--papier);
+  color: var(--encre);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+[data-brand="morch"] a { color: var(--cobalt); text-decoration: none; }
+[data-brand="morch"] a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+[data-brand="morch"] h1,
+[data-brand="morch"] h2,
+[data-brand="morch"] h3 {
+  font-family: var(--font-display);
+  margin: 0;
+}
+
+/* ── Sections : largeur de contenu centrée ─────────────────── */
+[data-brand="morch"] .cv-section {
+  position: relative;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+[data-brand="morch"] .cv-content {
+  max-width: 880px;
   margin: 0 auto;
-  padding: var(--space-9) var(--space-5) var(--space-7);
+}
+
+/* ── Reveals au scroll ─────────────────────────────────────
+   On bascule data-revealed="true" via IntersectionObserver.
+   Pas de styles inline → la règle dim des filtres peut gagner. */
+[data-brand="morch"] [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+[data-brand="morch"] [data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── SPLASH ───────────────────────────────────────────────── */
+[data-brand="morch"] .cv-splash {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 32px;
+  background: var(--encre);
+  color: var(--papier);
+  overflow: hidden;
 }
-
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(56px, 11vw, var(--text-4xl));
-  font-weight: 600;
-  margin: 0 0 var(--space-3);
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+[data-brand="morch"] .cv-splash-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.45;
+  pointer-events: none;
 }
-
-.hero .tagline {
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: var(--text-lg);
-  color: var(--mute);
-  margin: 0 0 var(--space-7);
-  max-width: 480px;
-  line-height: 1.4;
-}
-
-.cards { display: grid; gap: var(--space-3); }
-
-.project-card {
+[data-brand="morch"] .cv-splash-inner {
+  position: relative;
   display: flex;
-  gap: var(--space-4);
-  align-items: flex-start;
-  padding: var(--space-5);
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
-  color: var(--ink);
-  text-decoration: none;
-  transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease);
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  max-width: 760px;
 }
-
-.project-card:hover {
-  text-decoration: none;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-2);
-  border-color: var(--accent-warm);
+[data-brand="morch"] .cv-photo {
+  width: 172px;
+  height: 172px;
+  border-radius: 50%;
+  border: 3px solid rgba(247,244,237,0.25);
+  box-shadow: 0 18px 50px -18px rgba(0,0,0,0.6);
+  background: var(--carte-sombre);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+[data-brand="morch"] .cv-photo img { width: 100%; height: 100%; object-fit: cover; }
 
-.project-emoji {
-  font-size: 36px;
-  flex: 0 0 auto;
-  line-height: 1;
-}
-
-.project-card h2 {
-  margin: 0 0 var(--space-1);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-
-.project-card p {
-  margin: 0 0 var(--space-2);
-  color: var(--mute);
+[data-brand="morch"] .cv-hello {
   font-family: var(--font-body);
-  font-size: var(--text-md);
-  line-height: 1.5;
+  font-weight: 600;
+  font-size: clamp(20px, 3vw, 28px);
+  color: #9FB0FF;
+  letter-spacing: 0.01em;
+}
+[data-brand="morch"] .cv-h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(46px, 8vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin: 14px 0 0;
+  text-wrap: balance;
+}
+[data-brand="morch"] .cv-h1 .liens { color: var(--cobalt-light); }
+[data-brand="morch"] .cv-h1 .impro  { color: var(--framboise-light); }
+
+[data-brand="morch"] .cv-position {
+  max-width: 560px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--texte-sec-clair);
+}
+[data-brand="morch"] .cv-scroll-cue {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--texte-tert-clair);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+@keyframes morch-cue {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50%      { transform: translateY(8px); opacity: 1; }
+}
+[data-brand="morch"] .cv-scroll-cue svg { animation: morch-cue 1.8s ease-in-out infinite; }
+@keyframes morch-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+[data-brand="morch"] .cv-splash-bg circle { animation: morch-float 6.5s ease-in-out infinite; }
+[data-brand="morch"] .cv-splash-bg circle:nth-of-type(2) { animation-duration: 7s; }
+[data-brand="morch"] .cv-splash-bg circle:nth-of-type(3) { animation-duration: 5.5s; }
+[data-brand="morch"] .cv-splash-bg circle:nth-of-type(4) { animation-duration: 6.5s; }
+
+/* ── KICKER + SEPARATEUR ──────────────────────────────────── */
+[data-brand="morch"] .cv-kicker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+[data-brand="morch"] .cv-kicker-label {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+[data-brand="morch"] .cv-kicker-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--bordure-claire2);
+}
+[data-brand="morch"] .cv-section--dark .cv-kicker-rule { background: var(--bordure-sombre2); }
+
+/* ── PITCH ────────────────────────────────────────────────── */
+[data-brand="morch"] .cv-pitch {
+  padding-top: 120px;
+  padding-bottom: 90px;
+}
+[data-brand="morch"] .cv-pitch p {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: pretty;
+}
+[data-brand="morch"] .cv-pitch strong {
+  font-weight: 800;
+  color: var(--cobalt);
 }
 
-.project-cta {
-  font-family: var(--font-ui);
-  color: var(--accent-deep);
+/* ── SECTION SOMBRE (territoires, vibrer, contact) ────────── */
+[data-brand="morch"] .cv-section--dark {
+  background: var(--encre);
+  color: var(--papier);
+}
+[data-brand="morch"] .cv-section--cobalt {
+  background: var(--cobalt);
+  color: var(--papier);
+}
+[data-brand="morch"] .cv-section--sand {
+  background: var(--sable);
+}
+
+/* ── H2 de section ────────────────────────────────────────── */
+[data-brand="morch"] .cv-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 4.4vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0 0 44px;
+}
+[data-brand="morch"] .cv-h2--tight { margin-bottom: 14px; }
+
+/* ── TERRITOIRES ──────────────────────────────────────────── */
+[data-brand="morch"] .cv-territoires {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+[data-brand="morch"] .cv-terr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+[data-brand="morch"] .cv-terr-card {
+  background: var(--carte-sombre);
+  border: 1px solid var(--bordure-sombre);
+  border-radius: 18px;
+  padding: 28px;
+}
+[data-brand="morch"] .cv-terr-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+[data-brand="morch"] .cv-terr-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex: none;
+}
+[data-brand="morch"] .cv-terr-card h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  margin: 0;
+}
+[data-brand="morch"] .cv-terr-card p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--texte-sec-clair);
+  margin: 0 0 16px;
+}
+[data-brand="morch"] .cv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+[data-brand="morch"] .cv-chip {
+  padding: 6px 13px;
+  border: 1px solid var(--bordure-sombre2);
+  border-radius: 999px;
+  font-size: 13px;
+  color: #E4E5F0;
+}
+
+/* ── PARCOURS (timeline + filtres + cartes dépliables) ────── */
+[data-brand="morch"] .cv-parcours {
+  padding-top: 100px;
+  padding-bottom: 90px;
+}
+[data-brand="morch"] .cv-intro-line {
+  font-size: 16px;
+  color: var(--texte-secondaire);
+  margin: 0 0 26px;
+}
+
+[data-brand="morch"] .cv-filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 40px;
+}
+[data-brand="morch"] .cv-filterchip {
+  cursor: pointer;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
   font-weight: 600;
-  font-size: var(--text-sm);
+  border: 1px solid #D9D2C2;
+  background: transparent;
+  color: var(--texte-courant);
+  transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+[data-brand="morch"] .cv-filterchip[data-active="true"] {
+  background: var(--encre);
+  color: var(--papier);
+  border-color: var(--encre);
+}
+
+[data-brand="morch"] .cv-timeline {
+  position: relative;
+  padding-left: 34px;
+}
+[data-brand="morch"] .cv-timeline-track {
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: #E4DECF;
+}
+[data-brand="morch"] .cv-timeline-fill {
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 4px;
+  height: 0px;
+  background: linear-gradient(var(--cobalt), var(--framboise));
+  border-radius: 2px;
+}
+[data-brand="morch"] .cv-exp {
+  position: relative;
+  padding-bottom: 18px;
+}
+/* Dim doit gagner contre la règle reveal (spécificité plus haute). */
+[data-brand="morch"] .cv-exp[data-reveal][data-dim="true"],
+[data-brand="morch"] .cv-exp[data-reveal][data-revealed="true"][data-dim="true"] {
+  opacity: 0.28;
+  transform: none;
+}
+[data-brand="morch"] .cv-exp-dot {
+  position: absolute;
+  left: -34px;
+  top: 22px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid var(--papier);
+  box-shadow: 0 0 0 1px #E4DECF;
+}
+[data-brand="morch"] .cv-exp-card {
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--bordure-claire);
+  border-radius: 16px;
+  padding: 24px 26px;
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+[data-brand="morch"] .cv-exp-card[data-open="true"] {
+  border-color: var(--encre);
+  box-shadow: 0 14px 34px -20px rgba(24,26,46,0.45);
+}
+[data-brand="morch"] .cv-exp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+[data-brand="morch"] .cv-exp-role {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.15;
+  color: var(--encre);
+}
+[data-brand="morch"] .cv-exp-org {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 3px;
+}
+[data-brand="morch"] .cv-exp-dates {
+  font-size: 13px;
+  color: var(--texte-tertiaire);
+  white-space: nowrap;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
+[data-brand="morch"] .cv-exp-pitch {
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--texte-courant);
+  margin: 14px 0 0;
+}
+[data-brand="morch"] .cv-exp-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .4s var(--ease), opacity .35s var(--ease), margin .4s var(--ease);
+}
+[data-brand="morch"] .cv-exp-card[data-open="true"] .cv-exp-panel {
+  opacity: 1;
+}
+[data-brand="morch"] .cv-exp-panel ul {
+  margin: 16px 0 4px;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+[data-brand="morch"] .cv-exp-panel li {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #4A4A55;
+}
+[data-brand="morch"] .cv-exp-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9A9488;
+  letter-spacing: 0.04em;
+}
+[data-brand="morch"] .cv-exp-more-icon { transition: transform .3s var(--ease); }
+[data-brand="morch"] .cv-exp-card[data-open="true"] .cv-exp-more-icon { transform: rotate(180deg); }
 
-.landing-footer {
-  margin-top: auto;
-  padding-top: var(--space-8);
-  color: var(--mute);
-  font-family: var(--font-ui);
-  font-size: var(--text-xs);
-  letter-spacing: 0.05em;
+/* ── RÉALISATIONS ─────────────────────────────────────────── */
+[data-brand="morch"] .cv-realisations {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+[data-brand="morch"] .cv-real-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+[data-brand="morch"] .cv-real {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: start;
+  background: #fff;
+  border: 1px solid #E6E0D2;
+  border-radius: 18px;
+  padding: 30px 32px;
+}
+[data-brand="morch"] .cv-real-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+[data-brand="morch"] .cv-real-tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+[data-brand="morch"] .cv-real-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--texte-courant);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ── VIBRER (fond cobalt) ─────────────────────────────────── */
+[data-brand="morch"] .cv-vibrer {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+[data-brand="morch"] .cv-vibrer .cv-kicker-label { color: #FFD37A; }
+[data-brand="morch"] .cv-vibrer .cv-kicker-rule  { background: var(--cobalt-light); }
+[data-brand="morch"] .cv-vibrer .cv-h2           { max-width: 680px; }
+[data-brand="morch"] .cv-vibrer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+[data-brand="morch"] .cv-vibrer-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 16px;
+  padding: 22px 24px;
+}
+[data-brand="morch"] .cv-vibrer-card .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #FFD37A;
+  flex: none;
+  margin-top: 7px;
+}
+[data-brand="morch"] .cv-vibrer-card p {
+  font-size: 16px;
+  line-height: 1.55;
+  color: #EDEFFF;
+  margin: 0;
+}
+
+/* ── SCÈNE & FORMATION ────────────────────────────────────── */
+[data-brand="morch"] .cv-scene {
+  padding-top: 100px;
+  padding-bottom: 90px;
+}
+[data-brand="morch"] .cv-scene .cv-kicker-label { color: var(--soleil); }
+
+[data-brand="morch"] .cv-scene-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 64px;
+}
+[data-brand="morch"] .cv-scene-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: baseline;
+  border-bottom: 1px solid #E6E0D2;
+  padding-bottom: 18px;
+}
+[data-brand="morch"] .cv-scene-role {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+}
+[data-brand="morch"] .cv-scene-org {
+  font-size: 14.5px;
+  color: var(--soleil);
+  font-weight: 600;
+  margin: 2px 0 8px;
+}
+[data-brand="morch"] .cv-scene-desc {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4A4A55;
+  margin: 0;
+  max-width: 560px;
+}
+[data-brand="morch"] .cv-scene-dates {
+  font-size: 13px;
+  color: var(--texte-tertiaire);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+[data-brand="morch"] .cv-formation .cv-kicker-label { color: var(--menthe); }
+[data-brand="morch"] .cv-formation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+[data-brand="morch"] .cv-form-card {
+  background: #fff;
+  border: 1px solid var(--bordure-claire);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+[data-brand="morch"] .cv-form-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+[data-brand="morch"] .cv-form-school {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+}
+[data-brand="morch"] .cv-form-year {
+  font-size: 12.5px;
+  color: #9A9488;
+  font-weight: 600;
+  white-space: nowrap;
+}
+[data-brand="morch"] .cv-form-degree {
+  font-size: 14px;
+  color: var(--texte-courant);
+  margin-top: 5px;
+}
+[data-brand="morch"] .cv-form-note {
+  font-size: 13px;
+  color: var(--texte-tertiaire);
+  margin-top: 4px;
+}
+
+/* ── CONTACT (fond encre) ─────────────────────────────────── */
+[data-brand="morch"] .cv-contact {
+  padding-top: 110px;
+  padding-bottom: 96px;
+}
+[data-brand="morch"] .cv-contact h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(40px, 7vw, 84px);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+[data-brand="morch"] .cv-contact-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 40px;
+}
+[data-brand="morch"] .cv-btn-primary,
+[data-brand="morch"] .cv-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+}
+[data-brand="morch"] .cv-btn-primary {
+  background: var(--papier);
+  color: var(--encre);
+}
+[data-brand="morch"] .cv-btn-primary:hover { text-decoration: none; background: #fff; }
+[data-brand="morch"] .cv-btn-ghost {
+  border: 1px solid #3A3D58;
+  color: var(--papier);
+  font-weight: 600;
+}
+[data-brand="morch"] .cv-btn-ghost:hover { text-decoration: none; border-color: var(--papier); }
+
+[data-brand="morch"] .cv-contact-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 64px;
+  border-top: 1px solid var(--bordure-sombre2);
+  padding-top: 26px;
+  font-size: 14px;
+  color: var(--texte-tert-clair);
+}
+[data-brand="morch"] .cv-contact-foot .spacer { margin-left: auto; }
+[data-brand="morch"] .cv-contact-foot .meta {
+  font-size: 12px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: #5A5D78;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 720px) {
+  [data-brand="morch"] .cv-section { padding-left: 20px; padding-right: 20px; }
+  [data-brand="morch"] .cv-splash  { padding: 64px 20px; }
+  [data-brand="morch"] .cv-terr-grid,
+  [data-brand="morch"] .cv-vibrer-grid,
+  [data-brand="morch"] .cv-formation-grid { grid-template-columns: 1fr; }
+  [data-brand="morch"] .cv-real {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 24px;
+  }
+  [data-brand="morch"] .cv-scene-row { grid-template-columns: 1fr; }
+  [data-brand="morch"] .cv-scene-dates { margin-top: 6px; }
+}
+
+/* ── prefers-reduced-motion ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-brand="morch"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+  [data-brand="morch"] [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }

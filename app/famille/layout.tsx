@@ -5,6 +5,7 @@ import { isAuthed, getName } from '@/lib/session';
 export const metadata: Metadata = {
   title: 'Famille — partage',
   description: 'Films, livres, jeux, vidéos : un coin pour en discuter en famille.',
+  robots: { index: false, follow: false },
 };
 
 export default async function FamilleLayout({ children }: { children: React.ReactNode }) {
@@ -12,7 +13,7 @@ export default async function FamilleLayout({ children }: { children: React.Reac
   const name = await getName();
 
   return (
-    <>
+    <div data-brand="maisonnee">
       <header className="site">
         <div className="inner">
           <Link href="/famille" style={{ color: 'inherit' }}>
@@ -29,6 +30,6 @@ export default async function FamilleLayout({ children }: { children: React.Reac
         </div>
       </header>
       <main className="container">{children}</main>
-    </>
+    </div>
   );
 }

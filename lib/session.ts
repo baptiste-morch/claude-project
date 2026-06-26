@@ -5,9 +5,21 @@ const AUTH_COOKIE = 'famille_auth';
 const NAME_COOKIE = 'famille_nom';
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
+function familyPassword(): string {
+  const password = process.env.FAMILY_PASSWORD;
+  if (!password) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(
+        'FAMILY_PASSWORD non défini — refusé en production. Définis la variable dans ton hébergeur avant de redéployer.'
+      );
+    }
+    return 'changeme';
+  }
+  return password;
+}
+
 function authToken() {
-  const password = process.env.FAMILY_PASSWORD || 'changeme';
-  return crypto.createHash('sha256').update(`famille:${password}`).digest('hex');
+  return crypto.createHash('sha256').update(`famille:${familyPassword()}`).digest('hex');
 }
 
 export async function isAuthed() {
@@ -44,7 +56,7 @@ export async function clearSession() {
 }
 
 export function checkPassword(input: string) {
-  const expected = process.env.FAMILY_PASSWORD || 'changeme';
+  const expected = familyPassword();
   if (input.length !== expected.length) return false;
   return crypto.timingSafeEqual(Buffer.from(input), Buffer.from(expected));
 }
