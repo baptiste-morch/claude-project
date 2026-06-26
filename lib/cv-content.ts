@@ -52,7 +52,7 @@ export const profile = {
   hello: "Salut, moi c'est Baptiste.",
   headline: 'Créons des liens improbables',
   positioning:
-    'Visionnaire stratégique · Développement de partenariats · Accompagnement numérique',
+    "Je souhaite guider les orientations stratégiques et l'innovation d'une organisation à vocation sociale, en m'appuyant sur ma capacité à bâtir des partenariats.",
   intro:
     "Depuis plus de dix ans, je relie le numérique et l'humain — au service des organisations à vocation sociale, environnementale, citoyenne ou de santé. Réseauteur, improvisateur et chroniqueur radio, je passe mon temps à chercher le point de contact que personne n'avait vu : entre une idée et une personne, entre une cause et son public, entre deux mondes qui s'ignorent.",
   location: 'Québec, QC',
@@ -198,55 +198,6 @@ export const experiences: Experience[] = [
       "Livraisons d'envergure : Devinci, Centraide Québec Chaudières-Appalaches, Barreau du Québec, Québec-Cité, Village Vacances Valcartier.",
       "Participation aux comités de gestion (projets puis entreprise) pour les réflexions stratégiques.",
       "Deux prix de reconnaissance interne accordés par les pairs (gestion, design, développement).",
-    ],
-  },
-  {
-    id: 'absolu',
-    role: 'Chargé de projets web',
-    org: 'Absolu',
-    dates: 'Janv. 2016 – sept. 2017',
-    start: 2016,
-    end: 2017,
-    territoires: ['numerique', 'relation'],
-    pitch:
-      "Réflexion stratégique en amont, estimations, aide à la vente et gestion de production.",
-    bullets: [
-      "Stratégie de projet (arborescence, contenus, SEO, cibles) et estimations techniques.",
-      "Rédaction d'offres de services et de cahiers des charges ; gestion de production.",
-      "Architecture des liens entre site web et outils internes du client (API).",
-      "Refonte Ecommerce de Surplus RD / Meubles RD : gestion, QA, formation, support.",
-    ],
-  },
-  {
-    id: 'ixmedia',
-    role: 'Chargé de projets web',
-    org: 'iXmédia',
-    dates: 'Févr. 2015 – nov. 2015',
-    start: 2015,
-    end: 2015,
-    territoires: ['numerique'],
-    pitch:
-      "Analyse fonctionnelle, maquettes UX et pilotage serré de budgets et délais.",
-    bullets: [
-      "Analyse fonctionnelle et structurelle (arborescence, ébauches UX, scénarios).",
-      "Projet phare FCVQ : contraintes très serrées tenues avec l'équipe — ma plus grande réussite de l'époque.",
-      "Maison de la littérature : interface culturelle avec de beaux enjeux techniques.",
-    ],
-  },
-  {
-    id: 'piranha',
-    role: 'Chargé de projets interactifs',
-    org: 'Équation Humaine (Agence Piranha)',
-    dates: 'Mai 2014 – févr. 2015',
-    start: 2014,
-    end: 2015,
-    territoires: ['numerique', 'relation'],
-    pitch:
-      "Gardien de l'équipe, traducteur entre la technique et les clients.",
-    bullets: [
-      "Recueils de besoin, cahiers des charges, suivi de production de la maquette à la mise en ligne.",
-      "Projet Simons : développement web mobile et application native, mis sur des rails solides.",
-      "Reconnu par les devs et designers pour bien les comprendre et les représenter.",
     ],
   },
 ];

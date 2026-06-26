@@ -1,6 +1,85 @@
 /* ─────────────────────────────────────────────────────────────────────
    Reset minimal — partagé par les deux univers
    ───────────────────────────────────────────────────────────────────── */
+
+/* =====================================================================
+   UNIVERS « HOME » — splash page racine (/)
+   ===================================================================== */
+
+[data-brand="home"] {
+  position: relative;
+  min-height: 100vh;
+  background: #181A2E;
+  color: #F7F4ED;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-brand="home"] .home-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  pointer-events: none;
+}
+[data-brand="home"] .home-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+[data-brand="home"] .home-center {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  user-select: none;
+}
+
+[data-brand="home"] .home-eyebrow {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 600;
+  color: #9FB0FF;
+  letter-spacing: 0.01em;
+  margin: 0 0 6px;
+  line-height: 1;
+}
+
+[data-brand="home"] .home-title {
+  font-size: clamp(56px, 10vw, 120px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+[data-brand="home"] .home-name {
+  color: #5C79FF;
+}
+
+[data-brand="home"] .home-kw {
+  position: absolute;
+  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  [data-brand="home"] .home-kw { display: none; }
+  [data-brand="home"] .home-title { font-size: clamp(48px, 14vw, 72px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brand="home"] .home-kw { transform: none !important; }
+}
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
