@@ -40,18 +40,9 @@ export default function HomePage() {
 
   return (
     <div data-brand="home" ref={containerRef}>
-      <div className="home-bg" aria-hidden="true">
-        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-          <path d="M140 620 C 380 620 340 220 600 220" fill="none" stroke="#2B4BF2" strokeWidth="2" strokeDasharray="3 13" strokeLinecap="round" />
-          <path d="M600 220 C 860 220 820 540 1080 540" fill="none" stroke="#E2447C" strokeWidth="2" strokeDasharray="3 13" strokeLinecap="round" />
-          <path d="M320 100 C 560 100 580 420 1080 110" fill="none" stroke="#F4A82A" strokeWidth="2" strokeDasharray="3 13" strokeLinecap="round" />
-        </svg>
-      </div>
-
-      <div className="home-center">
-        <p className="home-eyebrow">Salut,</p>
+<div className="home-center">
         <h1 className="home-title">
-          moi c&rsquo;est&nbsp;<span className="home-name">Baptiste</span>.
+          Moi c&rsquo;est&nbsp;<span className="home-name">Baptiste</span>.
         </h1>
       </div>
 
