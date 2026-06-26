@@ -104,10 +104,37 @@ export default function CVPage() {
           <path d="M120 640 C 360 640 320 240 580 240" fill="none" stroke="#2B4BF2" strokeWidth="2.5" strokeDasharray="2 11" strokeLinecap="round" />
           <path d="M580 240 C 840 240 800 560 1060 560" fill="none" stroke="#E2447C" strokeWidth="2.5" strokeDasharray="2 11" strokeLinecap="round" />
           <path d="M300 120 C 540 120 560 440 1060 130" fill="none" stroke="#F4A82A" strokeWidth="2.5" strokeDasharray="2 11" strokeLinecap="round" />
-          <circle cx="120" cy="640" r="9" fill="#2B4BF2" />
-          <circle cx="580" cy="240" r="11" fill="#E2447C" />
-          <circle cx="1060" cy="560" r="9" fill="#1FA37A" />
-          <circle cx="300" cy="120" r="7" fill="#F4A82A" />
+
+          {/* Dot bleu→rose : suit la ligne bleue puis continue en rose jusqu'au bout */}
+          <circle r="10" fill="#2B4BF2">
+            <animate attributeName="fill"
+              values="#2B4BF2;#2B4BF2;#E2447C;#E2447C"
+              keyTimes="0;0.47;0.50;1"
+              dur="9s" repeatCount="indefinite" />
+            <animate attributeName="opacity"
+              values="1;1;0;0"
+              keyTimes="0;0.93;0.95;1"
+              dur="9s" repeatCount="indefinite" />
+            <animateMotion
+              dur="9s"
+              repeatCount="indefinite"
+              calcMode="paced"
+              path="M120 640 C 360 640 320 240 580 240 C 840 240 800 560 1060 560" />
+          </circle>
+
+          {/* Dot jaune : suit sa propre ligne, passe derrière la photo, reste jaune */}
+          <circle r="8" fill="#F4A82A">
+            <animate attributeName="opacity"
+              values="1;1;0;0"
+              keyTimes="0;0.91;0.93;1"
+              dur="8s" repeatCount="indefinite" begin="1.8s" />
+            <animateMotion
+              dur="8s"
+              repeatCount="indefinite"
+              begin="1.8s"
+              calcMode="paced"
+              path="M300 120 C 540 120 560 440 1060 130" />
+          </circle>
         </svg>
 
         <div className="cv-splash-inner">

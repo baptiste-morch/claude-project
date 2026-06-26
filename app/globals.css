@@ -726,14 +726,6 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
   50%      { transform: translateY(8px); opacity: 1; }
 }
 [data-brand="morch"] .cv-scroll-cue svg { animation: morch-cue 1.8s ease-in-out infinite; }
-@keyframes morch-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-[data-brand="morch"] .cv-splash-bg circle { animation: morch-float 6.5s ease-in-out infinite; }
-[data-brand="morch"] .cv-splash-bg circle:nth-of-type(2) { animation-duration: 7s; }
-[data-brand="morch"] .cv-splash-bg circle:nth-of-type(3) { animation-duration: 5.5s; }
-[data-brand="morch"] .cv-splash-bg circle:nth-of-type(4) { animation-duration: 6.5s; }
 
 /* ── KICKER + SEPARATEUR ──────────────────────────────────── */
 [data-brand="morch"] .cv-kicker {
