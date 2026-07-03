@@ -135,11 +135,11 @@ export const experiences: Experience[] = [
   {
     id: 'compagnons',
     role: 'Chargé de comptes & ambassadeur',
-    org: 'Compagnons',
+    org: 'Compagnons (anciennement Sigmund)',
     dates: 'Sept. 2022 – présent',
     start: 2022,
     current: true,
-    territoires: ['strategie', 'relation', 'numerique', 'voix'],
+    territoires: ['relation', 'strategie', 'numerique', 'voix'],
     pitch:
       "Conseiller numérique, voix de l'entreprise et entremetteur : de la planification stratégique à l'animation de panels.",
     bullets: [
@@ -157,7 +157,7 @@ export const experiences: Experience[] = [
     dates: 'Nov. 2025 – présent',
     start: 2025,
     current: true,
-    territoires: ['relation', 'numerique'],
+    territoires: ['strategie', 'relation', 'numerique'],
     pitch:
       "Accompagner des cohortes d'organismes communautaires dans leur plan de transformation numérique. Vulgariser, rassurer, rendre accessible.",
     bullets: [
