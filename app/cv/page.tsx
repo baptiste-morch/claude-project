@@ -218,7 +218,7 @@ export default function CVPage() {
             <span className="cv-kicker-label" style={{ color: '#2B4BF2' }}>Le parcours</span>
             <span className="cv-kicker-rule" />
           </div>
-          <h2 className="cv-h2 cv-h2--tight" data-reveal>Douze ans à tisser des liens.</h2>
+          <h2 className="cv-h2 cv-h2--tight" data-reveal>Des années à tisser des liens.</h2>
           <p className="cv-intro-line" data-reveal>
             Cliquer sur une étape pour la déplier.
           </p>

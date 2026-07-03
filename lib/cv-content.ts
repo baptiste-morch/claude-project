@@ -89,7 +89,7 @@ export const territoires: Territoire[] = [
     label: 'Relation & accompagnement',
     color: '#E2447C',
     line:
-      "Premier point de contact : traduire les besoins en solutions, accompagner les équipes — même les moins à l'aise avec le numérique.",
+      "Premier point de contact : traduire les besoins en solutions, accompagner les équipes et conseiller les clients.",
     skills: [
       'Gestion de comptes',
       'Conseil & coaching',
@@ -104,7 +104,7 @@ export const territoires: Territoire[] = [
     label: 'Transformation & numérique',
     color: '#1FA37A',
     line:
-      "Simplifier les processus, automatiser, faire dialoguer les outils — l'IA comprise.",
+      "Simplifier les processus, automatiser, faire dialoguer les outils et surtout gérer des projets d'envergure depuis 12 ans.",
     skills: [
       'Gestion de projet (Agile / Scrum)',
       'Optimisation de processus',
@@ -119,7 +119,7 @@ export const territoires: Territoire[] = [
     label: 'Voix & scène',
     color: '#F4A82A',
     line:
-      "Rendre le complexe accessible et vivant — au micro, sur scène, dans une chronique.",
+      "Rendre le complexe accessible et vivant : au micro, sur scène, dans une chronique.",
     skills: [
       'Communication',
       'Storytelling',
@@ -178,7 +178,7 @@ export const experiences: Experience[] = [
       "Bâtir un réseau à partir de zéro pour positionner une OBNL dans l'économie sociale et l'innovation sociale.",
     bullets: [
       "Création d'un réseau de rien : 50 à 70 rencontres en quelques mois, chaque interlocuteur en recommandant au moins un autre.",
-      "Obtention des premiers mandats de service (Conseil des systèmes alimentaires montréalais, Mères avec pouvoir, Parc-Extension).",
+      "Obtention des premiers mandats de service (Conseil des systèmes alimentaires montréalais, Mères avec pouvoir, Fondation AGES).",
       "Constitution d'un conseil d'administration de profils stratégiques et engagés.",
     ],
   },
@@ -191,7 +191,7 @@ export const experiences: Experience[] = [
     end: 2022,
     territoires: ['relation', 'numerique'],
     pitch:
-      "Gérer des équipes et livrer des projets web d'envergure, à temps et dans les budgets — avec la méthode SCRUM/Agile.",
+      "Gérer des équipes et livrer des projets web d'envergure, à temps et dans les budgets, en appliquant la méthode SCRUM / Agile.",
     bullets: [
       "Gestion quotidienne d'équipes (devs, designers, QA) et relation client de la vente à la livraison.",
       "Mise en place de SCRUM/Agile : daily, sprint planning/review, estimations en t-shirt sizes.",
@@ -231,7 +231,7 @@ export const realisations: Realisation[] = [
 
 export const vibrer: string[] = [
   "Tisser des liens et faire l'entremetteur entre des personnes ou des organisations qui gagneraient à se rencontrer.",
-  "Vulgariser, rendre le numérique accessible à celles et ceux pour qui c'est plus difficile — et les sentir contents.",
+  "Vulgariser, rendre le numérique accessible à celles et ceux pour qui c'est plus difficile, et leur montrer ce que ça rend possible.",
   "Monter sur scène, animer un panel, préparer longuement puis livrer une performance pertinente.",
   "Explorer l'optimisation, les automatisations et l'IA, et partager l'enthousiasme de la découverte.",
   "Réseauter dans des événements à vocation sociale et environnementale, me sentir à ma place.",
@@ -244,7 +244,7 @@ export const scene: SceneItem[] = [
     org: 'Production indépendante',
     dates: 'Janv. 2024 – présent',
     desc:
-      "Plus de deux ans d'épisodes : conversations enthousiastes avec des invité·e·s autour de ce qui les fait vibrer. Préparation, conduite d'entretien, montage et diffusion.",
+      "Plus de deux ans d'épisodes mensuels : conversations enthousiastes avec des invité·e·s autour de ce qui les fait vibrer. Préparation, conduite d'entretien et diffusion.",
   },
   {
     role: 'Improvisateur & aide à la régie',
@@ -255,7 +255,7 @@ export const scene: SceneItem[] = [
   },
   {
     role: 'Chroniqueur technologique',
-    org: 'CKIA — émission « Québec Réveille »',
+    org: 'Radio communautaire CKIA, matinale Québec Réveille',
     dates: 'Sept. 2018 – juin 2020',
     desc:
       "Chronique aux deux semaines : 3-4 h de recherche pour 10 minutes d'antenne accessibles à toutes et tous.",
@@ -278,7 +278,7 @@ export const formation: FormationItem[] = [
   },
   {
     school: 'Université TÉLUQ',
-    degree: 'Transformation numérique organisationnelle (2ᵉ cycle)',
+    degree: 'Transformation numérique organisationnelle (cours de 2ᵉ cycle)',
     year: '2023',
     note: '94 / 100',
   },
